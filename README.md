@@ -18,7 +18,7 @@ Works with **VS Code Copilot**, **Claude Code**, and **OpenAI Codex**.
 | **shipper** | Deploys to GitHub Pages or Vercel | "Ship it" / "Put it online" |
 | **investigator** | Deep debugs when quick fixes don't work | "It was working before" / "Find the bug" |
 
-### 13 Skills
+### 14 Skills
 
 | Skill | What it does | Say this |
 |---|---|---|
@@ -28,6 +28,7 @@ Works with **VS Code Copilot**, **Claude Code**, and **OpenAI Codex**.
 | **build-page** | Builds UI from descriptions or screenshots | "Build a landing page with..." |
 | **make-it-wow** | Instant visual polish — animations, typography, hover effects | "Make it look better" |
 | **design-system** | Builds tokens, primitive components, and rules from your existing UI | "Set up a design system" |
+| **generate-design-md** | Generates a DESIGN.md from any website URL — captures colors, type, spacing, components | "Make it look like linear.app" |
 | **save-data** | Saves form submissions to a database | "Save the form" |
 | **add-login** | Adds user authentication | "Add login" / "Only I can see this" |
 | **send-email** | Sends confirmation or notification emails | "Send me an email when..." |
@@ -88,6 +89,7 @@ Just talk naturally. You don't need to remember any agent or skill names.
 "Make a contact page with a form"           → builds the UI
 "Save what people submit"                   → connects to database
 "Make it look more premium"                 → adds animations and polish
+"Make it look like stripe.com"              → generates a DESIGN.md from that site
 "Only I should see the submissions"         → adds login
 "Email me when someone submits"             → adds notifications
 "Check it"                                  → runs quality check
@@ -135,6 +137,7 @@ skills/
   build-page/                           ← UI construction
   make-it-wow/                          ← Visual polish
   design-system/                        ← Tokens + primitives + consistency rules
+  generate-design-md/                   ← DESIGN.md from any website URL
   save-data/                            ← Database persistence
   add-login/                            ← Authentication
   send-email/                           ← Email notifications
@@ -147,6 +150,45 @@ skills/
     mobile-expo/                        ← React Native + Expo conventions
     figma-plugin/                       ← Figma Plugin API conventions
 ```
+
+## How DESIGN.md works
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  DESIGNER INPUT                                                 │
+│                                                                 │
+│  "Make it look like stripe.com"     "Set up a design system"    │
+│           │                                  │                  │
+│           ▼                                  ▼                  │
+│   generate-design-md              design-system                 │
+│   (fetches site HTML+CSS,         (extracts from your           │
+│    extracts tokens)                existing pages)               │
+│           │                                  │                  │
+│           └──────────┐       ┌───────────────┘                  │
+│                      ▼       ▼                                  │
+│               ┌──────────────────┐                              │
+│               │    DESIGN.md     │                              │
+│               │  (source of      │                              │
+│               │   truth for all  │                              │
+│               │   visual tokens) │                              │
+│               └────────┬─────────┘                              │
+│                        │                                        │
+│              ┌─────────┼─────────┐                              │
+│              ▼         ▼         ▼                              │
+│         build-page  make-it-wow  design-system                  │
+│         uses tokens  polishes    builds primitives              │
+│         for all UI   within the  FROM the file                  │
+│                      system                                     │
+│              │         │         │                               │
+│              └─────────┼─────────┘                              │
+│                        ▼                                        │
+│                  Consistent UI                                  │
+│            (every page matches the                              │
+│             design reference)                                   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+Rule 0 enforces this: every agent silently checks for `DESIGN.md` before any work. If it exists, all colors, fonts, spacing, shadows, and radii come from that file. No inventing new values.
 
 ## Design principles
 

@@ -4,7 +4,7 @@ You help an excited designer build their idea. They are not a programmer. They t
 
 ## Core Rules
 
-0. **Stay consistent with past decisions.** Before starting any work, silently check if `PROJECT.md` exists in the project root. If it does, read it. Use it to stay consistent with the stack, naming, routes, and architecture already chosen. After making any architecture decision (new page, database table, auth setup, external service), update `PROJECT.md`.
+0. **Stay consistent with past decisions.** Before starting any work, silently check if `PROJECT.md` exists in the project root. If it does, read it. Use it to stay consistent with the stack, naming, routes, and architecture already chosen. After making any architecture decision (new page, database table, auth setup, external service), update `PROJECT.md`. Also check if `DESIGN.md` exists. If it does, read it and use its tokens (colors, type, spacing, radii, shadows, motion) for every UI decision. Never invent new values when DESIGN.md defines them.
 
 1. **Show the result first, explain the code second.** Always preview in the browser. If you changed something visual, say what it looks like now — not what CSS property you changed.
 
@@ -69,6 +69,7 @@ Run before-you-ship checklist first — this is non-negotiable even if the desig
 | "Show me all the..." / "dashboard" | Data display | Fetch + styled list/cards |
 | "Make it look better" / "it looks boring" | Visual polish | Add animations, typography, spacing |
 | "Set up a design system" / "make styles consistent" / "set up tokens" | Design system | Extract tokens + create primitives + define usage rules |
+| "Make it look like [url]" / "grab the design from" / "design md" | Design reference | Fetch site, extract tokens, generate DESIGN.md |
 | "Ship it" / "put it online" | Deploy | Run pre-flight check, then deploy to Vercel |
 | "Check it" / "is this ready?" | QA | Run quick-check or full checklist |
 | "This doesn't work" / "ugh" / "stuck" | Frustrated — needs help | Fix silently, explain after |

@@ -117,7 +117,9 @@ Keep it simple — designers rarely care about the footer first.
 
 ## Visual Defaults
 
-Always apply these unless told otherwise:
+**If `DESIGN.md` exists in the project root, use it.** Pull every color, font, size, spacing value, radius, shadow, and motion token from the file. Do not invent values that DESIGN.md already defines. Skip the defaults below -- DESIGN.md overrides all of them.
+
+**If no `DESIGN.md` exists,** apply these defaults:
 - Font: system font stack or Inter
 - Heading sizes: responsive using `text-3xl md:text-5xl lg:text-7xl`
 - Body text: `text-base` or `text-lg`, line-height relaxed

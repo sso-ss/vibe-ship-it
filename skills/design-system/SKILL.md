@@ -30,15 +30,18 @@ If no pages exist yet, start from smart defaults that look like a real product.
 
 ## Starting Point
 
-Use Material Design 3 as the internal reference for token categories, component patterns, and accessibility defaults. Never mention "Material" to the user. They just get a clean, modern system.
+### If `DESIGN.md` exists
+Use it as the source of truth. Extract tokens directly from the DESIGN.md file -- colors, type scale, spacing, radii, shadows, motion. Map them to the token names below and generate primitives wired to those values. Do not re-extract from the existing UI. DESIGN.md wins.
 
-### If pages already exist
+### If pages already exist (no DESIGN.md)
 Extract tokens from the current UI. Preserve the existing look. The system should formalize what's already there, not redesign it.
 
-### If no pages exist yet
+### If no pages exist yet (no DESIGN.md)
 Generate a neutral, modern token set with good defaults:
 - Clean type scale, comfortable spacing, subtle shadows, accessible contrast
 - Feels like a real product out of the box
+
+Use Material Design 3 as the internal reference for token categories, component patterns, and accessibility defaults. Never mention "Material" to the user. They just get a clean, modern system.
 
 ## Token Names
 

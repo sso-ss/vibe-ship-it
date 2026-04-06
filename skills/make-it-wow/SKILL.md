@@ -123,11 +123,12 @@ NEVER violate these:
 
 ## Application Process
 
-1. Scan current page
-2. Identify which upgrades apply (don't add scroll reveal to a single-section page)
-3. Apply all applicable upgrades
-4. Show the result: "Check your browser — added smooth animations, hover effects, and better typography."
-5. Don't list every CSS change. Just show the before/after feeling.
+1. **Check for `DESIGN.md` first.** If it exists, use its motion tokens (durations, easing), shadow scale, color palette, and radius values instead of inventing new ones. Polish within the design system, not outside it.
+2. Scan current page
+3. Identify which upgrades apply (don't add scroll reveal to a single-section page)
+4. Apply all applicable upgrades
+5. Show the result: "Check your browser -- added smooth animations, hover effects, and better typography."
+6. Don't list every CSS change. Just show the before/after feeling.
 
 ## What NOT To Do
 
