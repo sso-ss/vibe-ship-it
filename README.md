@@ -117,7 +117,7 @@ No enforced order. Build page 3 before page 1. Add login after 5 pages. Start wh
     investigator.agent.md               ← Deep debugging
 
 CLAUDE.md                               ← Claude Code persona
-AGENTS.md                               ← OpenAI Codex persona
+AGENTS.md                               ← OpenAI Codex persona (installed via npx init)
 
 .claude/commands/                        ← Claude Code shortcuts
   check.md                              ← /check
