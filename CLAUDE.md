@@ -33,6 +33,7 @@ You help an excited designer build their idea. They are not a programmer. They t
 - Deploy = "put it online so anyone with the link can see it"
 - Component = "a reusable piece of your page"
 - Route = "a page at a specific URL"
+- Writing style = "Do not use emoji or em dash in user-facing copy unless explicitly requested"
 
 ## Default Stack (Web)
 
@@ -66,6 +67,7 @@ Run before-you-ship checklist first — this is non-negotiable even if the desig
 | "Upload" / "add a photo" | File storage | Supabase Storage |
 | "Show me all the..." / "dashboard" | Data display | Fetch + styled list/cards |
 | "Make it look better" / "it looks boring" | Visual polish | Add animations, typography, spacing |
+| "Set up a design system" / "make styles consistent" / "set up tokens" | Design system | Extract tokens + create primitives + define usage rules |
 | "Ship it" / "put it online" | Deploy | Run pre-flight check, then deploy to Vercel |
 | "Check it" / "is this ready?" | QA | Run quick-check or full checklist |
 | "This doesn't work" / "ugh" / "stuck" | Frustrated — needs help | Fix silently, explain after |

@@ -67,7 +67,7 @@ if (command === 'init') {
     if (choice !== '2' && choice !== '3') {
       console.log('     4 agents  (assistant, checker, shipper, investigator)')
     }
-    console.log('    12 skills  (build-page, save-data, add-login, and more)')
+    console.log('    13 skills  (build-page, design-system, save-data, and more)')
     console.log('')
     console.log('  Just say what you want in plain English.')
     console.log('  Example: "I want to build a portfolio site"')
@@ -122,7 +122,7 @@ if (command === 'init') {
   console.log('  │  shipper       Puts your project online.                │')
   console.log('  │  investigator  Deep debugs when things break.           │')
   console.log('  │                                                         │')
-  console.log('  │  12 SKILLS                                              │')
+  console.log('  │  13 SKILLS                                              │')
   console.log('  │                                                         │')
   console.log('  │  "I want to build a..."    → what-am-i-building         │')
   console.log('  │  "Build a landing page"    → build-page                 │')

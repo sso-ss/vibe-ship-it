@@ -18,7 +18,7 @@ Works with **VS Code Copilot**, **Claude Code**, and **OpenAI Codex**.
 | **shipper** | Deploys to GitHub Pages or Vercel | "Ship it" / "Put it online" |
 | **investigator** | Deep debugs when quick fixes don't work | "It was working before" / "Find the bug" |
 
-### 12 Skills
+### 13 Skills
 
 | Skill | What it does | Say this |
 |---|---|---|
@@ -27,6 +27,7 @@ Works with **VS Code Copilot**, **Claude Code**, and **OpenAI Codex**.
 | **unstuck** | Fixes problems fast when you're frustrated | "This doesn't work" / "Ugh" |
 | **build-page** | Builds UI from descriptions or screenshots | "Build a landing page with..." |
 | **make-it-wow** | Instant visual polish — animations, typography, hover effects | "Make it look better" |
+| **design-system** | Builds tokens, primitive components, and rules from your existing UI | "Set up a design system" |
 | **save-data** | Saves form submissions to a database | "Save the form" |
 | **add-login** | Adds user authentication | "Add login" / "Only I can see this" |
 | **send-email** | Sends confirmation or notification emails | "Send me an email when..." |
@@ -133,6 +134,7 @@ skills/
   unstuck/                              ← Fast frustration fix
   build-page/                           ← UI construction
   make-it-wow/                          ← Visual polish
+  design-system/                        ← Tokens + primitives + consistency rules
   save-data/                            ← Database persistence
   add-login/                            ← Authentication
   send-email/                           ← Email notifications
