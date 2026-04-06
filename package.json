@@ -1,0 +1,30 @@
+{
+  "name": "vibe-ship-it",
+  "version": "1.2.0",
+  "description": "AI skill pack for designers who vibe-code. 4 agents, 12 skills — just say what you want in plain English.",
+  "bin": {
+    "vibe-ship-it": "./bin/init.js"
+  },
+  "keywords": [
+    "copilot",
+    "claude",
+    "ai",
+    "skills",
+    "agents",
+    "designer",
+    "vibe-coding",
+    "no-code",
+    "nextjs",
+    "supabase"
+  ],
+  "author": "sso-ss",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sso-ss/vibe-ship-it.git"
+  },
+  "files": [
+    "bin/",
+    "template/"
+  ]
+}
