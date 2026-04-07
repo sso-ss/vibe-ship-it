@@ -45,9 +45,18 @@ export function DesignExtractor() {
 
   function processSnippetJSON(json: string) {
     try {
-      const data = JSON.parse(json);
-      if (data._type !== 'design-tokens') {
-        setError("This doesn't look like tokens from the extraction snippet.");
+      // Try to extract valid JSON if there's extra text around it
+      let cleanJson = json.trim();
+      const firstBrace = cleanJson.indexOf('{');
+      const lastBrace = cleanJson.lastIndexOf('}');
+      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+        cleanJson = cleanJson.slice(firstBrace, lastBrace + 1);
+      }
+
+      const data = JSON.parse(cleanJson);
+
+      if (!data.colors && !data.fonts) {
+        setError("This JSON doesn't contain design tokens (no colors or fonts found).");
         return;
       }
 
@@ -134,8 +143,9 @@ export function DesignExtractor() {
       });
       setTab("preview");
       setShowSnippet(false);
-    } catch {
-      setError("Could not parse the pasted JSON. Make sure you copied the full output from the snippet.");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      setError(`Could not parse JSON: ${msg}. Make sure you copied the full output.`);
     }
   }
 
