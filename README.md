@@ -1,5 +1,9 @@
 # Designer Vibe Coding Skill Pack
 
+[![npm version](https://img.shields.io/npm/v/vibe-ship-it)](https://www.npmjs.com/package/vibe-ship-it)
+[![npm downloads](https://img.shields.io/npm/dw/vibe-ship-it)](https://www.npmjs.com/package/vibe-ship-it)
+[![license](https://img.shields.io/npm/l/vibe-ship-it)](https://github.com/sso-ss/vibe-ship-it/blob/main/LICENSE)
+
 A set of AI agents and skills that help designers vibe-code their ideas to life — without learning programming.
 
 Works with **VS Code Copilot**, **Claude Code**, and **OpenAI Codex**.
