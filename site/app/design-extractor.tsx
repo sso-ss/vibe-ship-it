@@ -38,8 +38,10 @@ export function DesignExtractor() {
 
   function isJSON(input: string): boolean {
     const trimmed = input.trim();
-    return trimmed.startsWith('{') && trimmed.includes('"_type"');
+    return trimmed.startsWith('{') && (trimmed.includes('"_type"') || trimmed.includes('"colors"'));
   }
+
+  const inputIsJSON = url.trim().startsWith('{');
 
   function processSnippetJSON(json: string) {
     try {
@@ -231,19 +233,30 @@ export function DesignExtractor() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="flex gap-3 max-w-[560px]">
-        <input
-          type="text"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          placeholder='Enter a URL or paste extracted JSON'
-          className="flex-1 px-5 py-3 rounded-full shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] bg-white text-[14px] text-[rgb(20,20,20)] placeholder:text-[rgb(173,173,173)] focus:outline-none focus:shadow-[inset_0_0_0_2px_rgb(20,20,20)] transition-all"
-        />
-        <button
-          type="submit"
-          disabled={loading || !url.trim()}
-          className="px-6 py-3 rounded-full bg-[rgb(20,20,20)] text-white text-[14px] font-semibold hover:bg-[rgb(50,50,50)] transition-colors duration-200 disabled:opacity-50 whitespace-nowrap"
-        >
+      <form onSubmit={handleSubmit} className="max-w-[560px]">
+        <div className="flex gap-3">
+          {inputIsJSON ? (
+            <textarea
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder='Paste extracted JSON here'
+              rows={4}
+              className="flex-1 px-4 py-3 rounded-[12px] shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] bg-white text-[12px] font-mono text-[rgb(20,20,20)] placeholder:text-[rgb(173,173,173)] focus:outline-none focus:shadow-[inset_0_0_0_2px_rgb(20,20,20)] transition-all resize-none"
+            />
+          ) : (
+            <input
+              type="text"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder='Enter a URL or paste extracted JSON'
+              className="flex-1 px-5 py-3 rounded-full shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] bg-white text-[14px] text-[rgb(20,20,20)] placeholder:text-[rgb(173,173,173)] focus:outline-none focus:shadow-[inset_0_0_0_2px_rgb(20,20,20)] transition-all"
+            />
+          )}
+          <button
+            type="submit"
+            disabled={loading || !url.trim()}
+            className="px-6 py-3 rounded-full bg-[rgb(20,20,20)] text-white text-[14px] font-semibold hover:bg-[rgb(50,50,50)] transition-colors duration-200 disabled:opacity-50 whitespace-nowrap self-start"
+          >
           {loading ? (
             <span className="flex items-center gap-2">
               <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
@@ -254,6 +267,16 @@ export function DesignExtractor() {
             </span>
           ) : "Extract"}
         </button>
+        </div>
+        {inputIsJSON && (
+          <button
+            type="button"
+            onClick={() => setUrl("")}
+            className="mt-2 text-[12px] text-[rgb(173,173,173)] hover:text-[rgb(20,20,20)] transition-colors"
+          >
+            Clear and enter a URL instead
+          </button>
+        )}
       </form>
 
       {error && (
