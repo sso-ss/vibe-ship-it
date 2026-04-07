@@ -1,7 +1,7 @@
 {
   "name": "vibe-ship-it",
-  "version": "1.3.1",
-  "description": "AI skill pack for designers who vibe-code. 4 agents, 12 skills — just say what you want in plain English.",
+  "version": "1.4.0",
+  "description": "AI skill pack for designers who vibe-code. 4 agents, 14 skills, DESIGN.md generator. Just say what you want in plain English.",
   "bin": {
     "vibe-ship-it": "./bin/init.js"
   },
