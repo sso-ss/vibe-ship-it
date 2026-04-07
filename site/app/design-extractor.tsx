@@ -210,8 +210,31 @@ export function DesignExtractor() {
     navigator.clipboard.writeText(result.markdown);
   }
 
-  const SNIPPET = `javascript:void(function(){const c=new Map,f=new Set,s=new Set,w=new Set,r=new Set,sh=new Set,v={};try{for(const t of document.styleSheets)try{for(const u of t.cssRules)if(u.style)for(let i=0;i<u.style.length;i++){const p=u.style[i];if(p.startsWith("--")){const val=u.style.getPropertyValue(p).trim();if(val.match(/^#[0-9a-f]{3,8}$|^rgb|^hsl/i))v[p]=val}}}catch(e){}}catch(e){}const els=Array.from(document.querySelectorAll("body *:not(script):not(style):not(link):not(meta)")).slice(0,300);for(const el of els){const st=getComputedStyle(el),tc=(val,src)=>{val&&val!=="rgba(0, 0, 0, 0)"&&val!=="transparent"&&(c.has(val)||c.set(val,new Set),c.get(val).add(src))};tc(st.color,"text");tc(st.backgroundColor,"background");tc(st.borderColor,"border");st.fontFamily&&f.add(st.fontFamily);st.fontSize&&st.fontSize!=="0px"&&s.add(st.fontSize);st.fontWeight&&w.add(st.fontWeight);st.borderRadius&&st.borderRadius!=="0px"&&r.add(st.borderRadius);st.boxShadow&&st.boxShadow!=="none"&&sh.add(st.boxShadow)}const tm=document.querySelector('meta[name="theme-color"]'),res={_type:"design-tokens",url:location.href,title:document.title,themeColor:tm?tm.getAttribute("content"):void 0,colors:Array.from(c).map(([v,s])=>({value:v,sources:Array.from(s)})).slice(0,30),fonts:Array.from(f).slice(0,5),fontSizes:Array.from(s).sort((a,b)=>parseFloat(a)-parseFloat(b)).slice(0,15),fontWeights:Array.from(w).sort().slice(0,8),radii:Array.from(r).slice(0,8),shadows:Array.from(sh).slice(0,6),cssVars:v};navigator.clipboard.writeText(JSON.stringify(res)).then(()=>alert("Copied! Paste into the generator.")).catch(()=>prompt("Copy this:",JSON.stringify(res)))})()`;
-
+  const SNIPPET = `(function(){
+  var c=new Map,f=new Set,s=new Set,w=new Set,r=new Set,sh=new Set,v={};
+  try{for(var t of document.styleSheets)try{for(var u of t.cssRules)if(u.style)for(var i=0;i<u.style.length;i++){var p=u.style[i];if(p.startsWith("--")){var val=u.style.getPropertyValue(p).trim();if(/^#[0-9a-f]{3,8}$|^rgb|^hsl/i.test(val))v[p]=val}}}catch(e){}}catch(e){}
+  var els=Array.from(document.querySelectorAll("body *:not(script):not(style):not(link):not(meta)")).slice(0,300);
+  for(var el of els){var st=getComputedStyle(el);
+    var tc=function(val,src){if(val&&val!=="rgba(0, 0, 0, 0)"&&val!=="transparent"){if(!c.has(val))c.set(val,new Set());c.get(val).add(src)}};
+    tc(st.color,"text");tc(st.backgroundColor,"background");tc(st.borderColor,"border");
+    if(st.fontFamily)f.add(st.fontFamily);
+    if(st.fontSize&&st.fontSize!=="0px")s.add(st.fontSize);
+    if(st.fontWeight)w.add(st.fontWeight);
+    if(st.borderRadius&&st.borderRadius!=="0px")r.add(st.borderRadius);
+    if(st.boxShadow&&st.boxShadow!=="none")sh.add(st.boxShadow);
+  }
+  var tm=document.querySelector('meta[name="theme-color"]');
+  var res={_type:"design-tokens",url:location.href,title:document.title,
+    themeColor:tm?tm.getAttribute("content"):void 0,
+    colors:Array.from(c).map(function(e){return{value:e[0],sources:Array.from(e[1])}}).slice(0,30),
+    fonts:Array.from(f).slice(0,5),
+    fontSizes:Array.from(s).sort(function(a,b){return parseFloat(a)-parseFloat(b)}).slice(0,15),
+    fontWeights:Array.from(w).sort().slice(0,8),
+    radii:Array.from(r).slice(0,8),
+    shadows:Array.from(sh).slice(0,6),
+    cssVars:v};
+  navigator.clipboard.writeText(JSON.stringify(res)).then(function(){alert("Copied! Paste into the generator.")}).catch(function(){console.log(JSON.stringify(res))});
+})();`;
   function handleCopySnippet() {
     navigator.clipboard.writeText(SNIPPET);
     setSnippetCopied(true);
@@ -332,14 +355,14 @@ export function DesignExtractor() {
                 Not enough tokens from this site.
               </p>
               <p className="text-[14px] text-[rgb(112, 112, 112)] leading-relaxed mb-4">
-                This site's CSS was mostly blocked. For full extraction, open the site in your browser, right-click and select "Inspect", go to Console, and paste this bookmarklet as a new bookmark URL. Then click it while on the site. It copies all design tokens to your clipboard. Come back here and paste.
+                This site's CSS was not fully accessible. For full extraction: open the target site, right-click, select "Inspect", go to the Console tab, paste the script below, and press Enter. It copies design tokens to your clipboard. Come back here and paste.
               </p>
               <div className="flex gap-2">
                 <button
                   onClick={handleCopySnippet}
                   className="px-5 py-2.5 rounded-lg bg-[rgb(20,20,20)] text-white text-[13px] font-medium hover:bg-[rgb(50,50,50)] transition-colors"
                 >
-                  {snippetCopied ? "Copied!" : "Copy extraction snippet"}
+                  {snippetCopied ? "Copied!" : "Copy console script"}
                 </button>
               </div>
             </div>
