@@ -33,7 +33,7 @@
 ## 3. Typography
 
 ### Fonts
-- **Primary:** saans, "saans Fallback", sans-serif
+- **Primary:** Inter, sans-serif
 - **Mono:** system monospace (for code blocks)
 
 ### Scale
@@ -43,12 +43,12 @@
 | H1 | 56px | 600 | extracted |
 | H2 | 24px | 600 | extracted |
 | H3 | 20px | 600 | extracted |
-| Body | 16px | 440 | extracted |
-| Body Small | 14px | 400 | extracted |
-| Caption | 12px | 456 | extracted |
+| Body | 16px | 400 | adapted |
+| Body Small | 14px | 400 | adapted |
+| Caption | 12px | 500 | adapted |
 
 ### Weight Strategy
-Unusual weight system: 400 (light UI), 440 (body text), 456 (captions/labels), 600 (headings), 652 (bold emphasis). No 300 or 700 -- the scale lives in the 400-650 range.
+Three weights: 400 (body text), 500 (labels, captions, nav), 600 (headings). Clean and tight.
 
 ## 4. Spacing & Layout
 
@@ -102,7 +102,7 @@ Unusual weight system: 400 (light UI), 440 (body text), 456 (captions/labels), 6
 Focus: ring color shifts to `oklch(62.7% .265 303.9)` (purple focus ring from Tailwind)
 
 ### Navigation
-White sticky header with `backdrop-filter: blur(24px)`. Logo left, links center, CTA right. Text in `rgb(20, 20, 20)`, 14px weight 440.
+White sticky header with `backdrop-filter: blur(24px)`. Logo left, links center, CTA right. Text in `rgb(20, 20, 20)`, 14px weight 400.
 
 ### Signature Patterns
 - **Inset shadow borders:** Cards use `box-shadow: 0 0 0 1px inset` instead of CSS `border` -- same technique as Vercel but with lower opacity
@@ -123,7 +123,7 @@ White sticky header with `backdrop-filter: blur(24px)`. Logo left, links center,
 ### Do
 - Use `rgb(20, 20, 20)` for text, never pure black `rgb(0, 0, 0)`
 - Use shadow-as-border (`0 0 0 1px inset rgba(64,64,64,0.16)`) instead of CSS `border`
-- Use "saans" font with weights 440 (body) and 600 (headings)
+- Use Inter font with weights 400 (body) and 600 (headings)
 - Use pill radius (9999px) on all buttons
 - Keep the chrome monochrome -- let content provide color
 - Use `rgb(245, 245, 245)` for subtle surface differentiation
@@ -132,7 +132,7 @@ White sticky header with `backdrop-filter: blur(24px)`. Logo left, links center,
 - Don't use any brand/accent color in the UI chrome
 - Don't use traditional CSS borders -- use inset shadow technique
 - Don't use heavy shadows (max 0.04 opacity for ambient)
-- Don't use font weights outside the 400-652 range
+- Don't use font weights outside the 400-600 range
 - Don't use pure black or pure white text -- use `rgb(20, 20, 20)` and `rgb(255,255,255)`
 - Don't add elevation on hover -- Mobbin uses background shift, not lift
 

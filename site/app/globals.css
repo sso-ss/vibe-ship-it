@@ -23,5 +23,5 @@ html {
 body {
   color: var(--text-primary);
   background: var(--bg);
-  font-weight: 440;
+  font-weight: 400;
 }
