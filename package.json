@@ -26,5 +26,8 @@
   "files": [
     "bin/",
     "template/"
-  ]
+  ],
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
 }
