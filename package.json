@@ -1,6 +1,6 @@
 {
   "name": "vibe-ship-it",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "AI skill pack for designers who vibe-code. 4 agents, 14 skills, DESIGN.md generator. Just say what you want in plain English.",
   "bin": {
     "vibe-ship-it": "./bin/init.js"
@@ -26,8 +26,5 @@
   "files": [
     "bin/",
     "template/"
-  ],
-  "dependencies": {
-    "@vercel/analytics": "^2.0.1"
-  }
+  ]
 }
