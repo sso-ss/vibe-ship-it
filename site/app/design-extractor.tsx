@@ -304,7 +304,7 @@ export function DesignExtractor() {
               <div className="flex gap-2">
                 <button
                   onClick={handleCopySnippet}
-                  className="px-5 py-2.5 rounded-lg bg-[rgb(20, 20, 20)] text-white text-[13px] font-medium hover:bg-[#0d3050] transition-colors"
+                  className="px-5 py-2.5 rounded-lg bg-[rgb(20,20,20)] text-white text-[13px] font-medium hover:bg-[rgb(50,50,50)] transition-colors"
                 >
                   {snippetCopied ? "Copied!" : "Copy extraction snippet"}
                 </button>
@@ -508,7 +508,7 @@ export function DesignExtractor() {
                               className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-[rgba(0,0,0,0.04)] bg-[rgba(64,64,64,0.04)]"
                             >
                               <div
-                                className="w-10 h-10 bg-[rgb(20, 20, 20)] shrink-0"
+                                className="w-10 h-10 bg-[rgb(20,20,20)] shrink-0"
                                 style={resolved ? { borderRadius: resolved } : {}}
                               />
                               <span className="text-[12px] font-mono text-[rgb(112, 112, 112)] leading-tight">
@@ -569,7 +569,7 @@ export function DesignExtractor() {
             </div>
           ) : (
             /* Markdown view */
-            <div className="rounded-xl border border-[rgba(64,64,64,0.16)] bg-[rgb(20, 20, 20)] p-6 shadow-[0_13px_27px_rgba(64,64,64,0.16)] max-h-[400px] overflow-y-auto">
+            <div className="rounded-xl border border-[rgba(64,64,64,0.16)] bg-[rgb(20,20,20)] p-6 shadow-[0_13px_27px_rgba(0,0,0,0.15)] max-h-[400px] overflow-y-auto">
               <pre className="text-[13px] font-mono leading-[1.7] text-white/70 whitespace-pre-wrap break-words">
                 {result.markdown}
               </pre>
