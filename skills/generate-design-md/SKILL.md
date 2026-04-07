@@ -119,6 +119,18 @@ The DESIGN.md follows an 8-section structure optimized for AI agents. Every sect
 ```markdown
 # DESIGN.md -- [Site Name]
 
+<!-- extraction-meta
+source: [URL]
+date: [YYYY-MM-DD]
+confidence: { extracted: [%], inferred: [%], known: [%] }
+staleness-risk: [low/medium/high]
+sources-attempted: [list of what you tried to fetch]
+sources-succeeded: [list of what returned usable data]
+priority-rule: external-css > style-blocks > inline-style > known
+-->
+
+[If staleness-risk is medium or high, add a blockquote warning here.]
+
 ## 1. Identity
 
 **In one line:** [Single sentence capturing the visual personality -- what a designer would say after 5 seconds on the site.]
@@ -129,20 +141,20 @@ The DESIGN.md follows an 8-section structure optimized for AI agents. Every sect
 ## 2. Color
 
 ### Palette
-| Token | Value | Role |
-|-------|-------|------|
-| `background` | `#hex` | Page canvas |
-| `surface` | `#hex` | Cards, panels, elevated containers |
-| `text-primary` | `#hex` | Headings, body text |
-| `text-secondary` | `#hex` | Descriptions, muted copy |
-| `text-tertiary` | `#hex` | Placeholder, disabled, metadata |
-| `accent` | `#hex` | Primary brand action, links |
-| `accent-hover` | `#hex` | Accent hover state |
-| `border` | `#hex` or `rgba()` | Dividers, card edges, input borders |
-| `border-subtle` | `#hex` or `rgba()` | Lighter separator lines |
-| `success` | `#hex` | Confirmation, positive states |
-| `warning` | `#hex` | Caution states |
-| `danger` | `#hex` | Error, destructive actions |
+| Token | Value | Role | Confidence |
+|-------|-------|------|------------|
+| `background` | `#hex` | Page canvas | [extracted/inferred/known] |
+| `surface` | `#hex` | Cards, panels, elevated containers | |
+| `text-primary` | `#hex` | Headings, body text | |
+| `text-secondary` | `#hex` | Descriptions, muted copy | |
+| `text-tertiary` | `#hex` | Placeholder, disabled, metadata | |
+| `accent` | `#hex` | Primary brand action, links | |
+| `accent-hover` | `#hex` | Accent hover state | |
+| `border` | `#hex` or `rgba()` | Dividers, card edges, input borders | |
+| `border-subtle` | `#hex` or `rgba()` | Lighter separator lines | |
+| `success` | `#hex` | Confirmation, positive states | |
+| `warning` | `#hex` | Caution states | |
+| `danger` | `#hex` | Error, destructive actions | |
 [Add any brand-specific named colors: "Ship Red", "Console Blue", etc.]
 
 ### Dark Mode (if present)
@@ -157,16 +169,17 @@ The DESIGN.md follows an 8-section structure optimized for AI agents. Every sect
 - **Mono:** [font name] -- [fallback stack] (omit if site doesn't use mono)
 
 ### Scale
-| Role | Size | Weight | Line Height | Letter Spacing |
-|------|------|--------|-------------|----------------|
-| Display | [px/rem] | [number] | [value] | [value] |
-| H1 | [px/rem] | [number] | [value] | [value] |
-| H2 | [px/rem] | [number] | [value] | [value] |
-| H3 | [px/rem] | [number] | [value] | [value] |
-| Body | [px/rem] | [number] | [value] | [value] |
-| Body Small | [px/rem] | [number] | [value] | [value] |
-| Caption | [px/rem] | [number] | [value] | [value] |
-| Code | [px/rem] | [number] | [value] | [value] |
+| Role | Size | Weight | Line Height | Letter Spacing | Confidence |
+|------|------|--------|-------------|----------------|------------|
+| Display | [px/rem] | [number] | [value] | [value] | |
+| H1 | [px/rem] | [number] | [value] | [value] | |
+| H2 | [px/rem] | [number] | [value] | [value] | |
+| H3 | [px/rem] | [number] | [value] | [value] | |
+| Body | [px/rem] | [number] | [value] | [value] | |
+| Body Small | [px/rem] | [number] | [value] | [value] | |
+| Caption | [px/rem] | [number] | [value] | [value] | |
+| Code | [px/rem] | [number] | [value] | [value] | |
+[Add rows as needed -- these are minimums, not limits.]
 
 ### Weight Strategy
 [1-2 lines. How many weights are used and what each one means. e.g. "Three weights only: 400 (read), 500 (interact), 600 (announce). No bold."]
@@ -198,7 +211,7 @@ The DESIGN.md follows an 8-section structure optimized for AI agents. Every sect
 | Low | `[full CSS]` | Cards, containers |
 | Mid | `[full CSS]` | Dropdowns, popovers |
 | High | `[full CSS]` | Modals, dialogs |
-[Include any distinctive techniques: shadow-as-border, backdrop-blur, glassmorphism, gradient overlays, inner glows]
+[Add rows for distinctive techniques: backdrop-blur, glassmorphism, glow, inner shadow, shadow-as-border. Keep them in the table, not as prose.]
 
 ### Motion
 | Property | Value | Use |
@@ -212,19 +225,39 @@ The DESIGN.md follows an 8-section structure optimized for AI agents. Every sect
 ## 6. Components
 
 ### Buttons
-**Primary:** `background: [val]` `color: [val]` `padding: [val]` `radius: [val]` `shadow: [val]`
-**Secondary:** [same format]
-**Ghost:** [same format]
-**Hover/Focus:** [what changes on interaction -- be specific about the CSS, not just "darkens"]
+| Property | Primary | Secondary | Ghost |
+|----------|---------|-----------|-------|
+| background | `[val]` | `[val]` | `[val]` |
+| color | `[val]` | `[val]` | `[val]` |
+| padding | `[val]` | `[val]` | `[val]` |
+| radius | `[val]` | `[val]` | `[val]` |
+| border | `[val]` | `[val]` | `[val]` |
+| shadow | `[val]` | `[val]` | `[val]` |
+
+| State | Primary | Secondary |
+|-------|---------|----------|
+| Hover | [specific CSS changes] | [specific CSS changes] |
+| Focus | [focus ring value] | [focus ring value] |
 
 ### Cards
-`background: [val]` `border: [val]` `radius: [val]` `shadow: [val]` `padding: [val]`
-Hover: [behavior]
+| Property | Value |
+|----------|-------|
+| background | `[val]` |
+| border | `[val]` |
+| radius | `[val]` |
+| shadow | `[val]` |
+| padding | `[val]` |
+| hover | [behavior] |
 
 ### Inputs
-`border: [val]` `radius: [val]` `padding: [val]` `focus: [val]`
-Error: [styling]
-Label: [placement and style]
+| Property | Value |
+|----------|-------|
+| border | `[val]` |
+| radius | `[val]` |
+| padding | `[val]` |
+| focus | `[val]` |
+| error | [styling] |
+| label | [placement and style] |
 
 ### Navigation
 [Structure, font treatment, active indicator, sticky behavior]

@@ -8,16 +8,19 @@
     "start": "next start"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^143.0.4",
     "next": "^15.3.1",
+    "playwright-core": "^1.59.1",
+    "puppeteer-core": "^24.40.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.4",
-    "tailwindcss": "^4.1.4",
-    "typescript": "^5.8.3",
     "@types/node": "^22.14.1",
     "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2"
+    "@types/react-dom": "^19.1.2",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3"
   }
 }

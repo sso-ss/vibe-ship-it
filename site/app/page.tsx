@@ -4,21 +4,22 @@ export default function Home() {
   return (
     <main>
       {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/80 border-b border-[rgba(10,37,64,0.08)]">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10 flex items-center justify-between h-16">
-          <span className="text-[15px] font-bold tracking-tight text-[#0a2540]">
+      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-[24px] bg-white/80 border-b border-[rgb(237,237,237)]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8 flex items-center justify-between h-14">
+          <span className="text-[14px] font-semibold tracking-tight text-[rgb(20,20,20)]">
             vibe-ship-it
           </span>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#skills" className="text-[15px] font-medium text-[#425466] hover:text-[#635bff] transition-colors">Skills</a>
-            <a href="#how" className="text-[15px] font-medium text-[#425466] hover:text-[#635bff] transition-colors">How it works</a>
-            <a href="#agents" className="text-[15px] font-medium text-[#425466] hover:text-[#635bff] transition-colors">Agents</a>
+            <a href="#how" className="text-[14px] text-[rgb(112,112,112)] hover:text-[rgb(20,20,20)] transition-colors">How it works</a>
+            <a href="#skills" className="text-[14px] text-[rgb(112,112,112)] hover:text-[rgb(20,20,20)] transition-colors">Skills</a>
+            <a href="#agents" className="text-[14px] text-[rgb(112,112,112)] hover:text-[rgb(20,20,20)] transition-colors">Agents</a>
+            <a href="#demo" className="text-[14px] text-[rgb(112,112,112)] hover:text-[rgb(20,20,20)] transition-colors">Demo</a>
           </div>
           <a
             href="https://github.com/sso-ss/vibe-ship-it"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[15px] font-medium text-[#635bff] hover:text-[#7a73ff] transition-colors"
+            className="inline-flex items-center px-5 py-2 rounded-full bg-[rgb(20,20,20)] text-white text-[14px] font-semibold hover:bg-[rgb(50,50,50)] transition-colors"
           >
             GitHub
           </a>
@@ -26,26 +27,26 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <section className="relative pt-40 pb-28">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10">
+      <section className="pt-36 pb-20">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
           <div className="max-w-[720px]">
-            <p className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-4">
+            <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-4">
               Open-source skill pack
             </p>
-            <h1 className="text-[40px] md:text-[54px] lg:text-[72px] font-bold leading-[1.08] tracking-[-0.03em] text-[#0a2540] mb-6">
+            <h1 className="text-[40px] md:text-[56px] lg:text-[80px] font-semibold leading-[1.05] tracking-[-0.02em] text-[rgb(20,20,20)] mb-6">
               AI skills for designers who code
             </h1>
-            <p className="text-[19px] md:text-[21px] font-light leading-[1.6] text-[#425466] mb-10 max-w-[560px]">
+            <p className="text-[16px] md:text-[20px] leading-[1.6] text-[rgb(112,112,112)] mb-10 max-w-[560px]">
               14 skills and 4 agents that help you build real products by talking naturally. Works with VS Code Copilot, Claude Code, and OpenAI Codex.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3">
               <a
                 href="https://github.com/sso-ss/vibe-ship-it"
-                className="inline-flex items-center px-7 py-3.5 rounded-full bg-gradient-to-r from-[#635bff] to-[#0073e6] text-white text-[15px] font-medium shadow-[0_2px_4px_rgba(99,91,255,0.3)] hover:shadow-[0_4px_12px_rgba(99,91,255,0.4)] hover:-translate-y-0.5 transition-all duration-200"
+                className="inline-flex items-center px-6 py-3 rounded-full bg-[rgb(20,20,20)] text-white text-[14px] font-semibold hover:bg-[rgb(50,50,50)] transition-colors duration-200"
               >
                 Get started
               </a>
-              <div className="inline-flex items-center px-6 py-3.5 rounded-full bg-white border border-[rgba(10,37,64,0.1)] text-[#0a2540] text-[15px] font-mono">
+              <div className="inline-flex items-center px-5 py-3 rounded-full bg-[rgb(245,245,245)] text-[rgb(20,20,20)] text-[14px] font-mono">
                 npx vibe-ship-it init
               </div>
             </div>
@@ -54,8 +55,8 @@ export default function Home() {
       </section>
 
       {/* Metrics */}
-      <section className="py-16 border-y border-[rgba(10,37,64,0.08)]">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10">
+      <section className="py-14 border-y border-[rgb(237,237,237)]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { number: "14", label: "Skills" },
@@ -64,10 +65,10 @@ export default function Home() {
               { number: "0", label: "Config files needed" },
             ].map((item) => (
               <div key={item.label} className="text-center">
-                <div className="text-[48px] md:text-[56px] font-bold tracking-[-0.03em] text-[#0a2540] leading-none">
+                <div className="text-[48px] md:text-[56px] font-semibold tracking-[-0.02em] text-[rgb(20,20,20)] leading-none">
                   {item.number}
                 </div>
-                <div className="text-[15px] font-medium text-[#6b7c93] mt-2">
+                <div className="text-[14px] text-[rgb(112,112,112)] mt-2">
                   {item.label}
                 </div>
               </div>
@@ -77,19 +78,19 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section id="how" className="py-24 md:py-32">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10">
-          <p className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-3">
+      <section id="how" className="py-20 md:py-24">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
+          <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-3">
             How it works
           </p>
-          <h2 className="text-[32px] md:text-[40px] font-bold tracking-[-0.02em] text-[#0a2540] mb-4">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-4">
             Talk naturally. Build real things.
           </h2>
-          <p className="text-[19px] font-light text-[#425466] leading-[1.6] mb-16 max-w-[560px]">
+          <p className="text-[16px] text-[rgb(112,112,112)] leading-[1.6] mb-12 max-w-[520px]">
             No commands to memorize. Describe what you want and the right skill activates automatically.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-4">
             {[
               { say: '"I want to build a portfolio site"', does: "Sets up the project with the right stack" },
               { say: '"Make a contact page with a form"', does: "Builds the full page with realistic content" },
@@ -102,12 +103,12 @@ export default function Home() {
             ].map((item) => (
               <div
                 key={item.say}
-                className="rounded-xl border border-[rgba(10,37,64,0.08)] bg-white p-6 shadow-[0_2px_4px_rgba(10,37,64,0.06)] hover:shadow-[0_6px_12px_rgba(10,37,64,0.08)] hover:-translate-y-0.5 transition-all duration-300"
+                className="rounded-[12px] p-5 shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] hover:bg-[rgb(245,245,245)] transition-colors duration-200"
               >
-                <p className="text-[17px] font-medium text-[#0a2540] mb-2 font-mono">
+                <p className="text-[14px] font-semibold text-[rgb(20,20,20)] mb-1.5 font-mono">
                   {item.say}
                 </p>
-                <p className="text-[15px] font-light text-[#425466] leading-[1.6]">
+                <p className="text-[14px] text-[rgb(112,112,112)] leading-[1.6]">
                   {item.does}
                 </p>
               </div>
@@ -117,19 +118,19 @@ export default function Home() {
       </section>
 
       {/* Skills */}
-      <section id="skills" className="py-24 md:py-32">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10">
-          <p className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-3">
+      <section id="skills" className="py-20 md:py-24">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
+          <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-3">
             14 Skills
           </p>
-          <h2 className="text-[32px] md:text-[40px] font-bold tracking-[-0.02em] text-[#0a2540] mb-4">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-4">
             Everything you need, nothing you don't.
           </h2>
-          <p className="text-[19px] font-light text-[#425466] leading-[1.6] mb-16 max-w-[560px]">
-            Each skill handles one job well. They activate from plain English -- no skill names to memorize.
+          <p className="text-[16px] text-[rgb(112,112,112)] leading-[1.6] mb-12 max-w-[520px]">
+            Each skill handles one job well. They activate from plain English.
           </p>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { name: "what-am-i-building", desc: "Figures out your project, picks the right stack, sets everything up" },
               { name: "build-page", desc: "Turns descriptions or screenshots into working UI" },
@@ -148,12 +149,12 @@ export default function Home() {
             ].map((skill) => (
               <div
                 key={skill.name}
-                className="rounded-xl border border-[rgba(10,37,64,0.08)] bg-white/80 backdrop-blur-sm p-5 hover:shadow-[0_6px_12px_rgba(10,37,64,0.08)] hover:-translate-y-0.5 transition-all duration-300"
+                className="rounded-[12px] p-5 shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] hover:bg-[rgb(245,245,245)] transition-colors duration-200"
               >
-                <p className="text-[13px] font-mono font-medium text-[#635bff] mb-2">
+                <p className="text-[12px] font-mono font-semibold text-[rgb(20,20,20)] mb-2">
                   {skill.name}
                 </p>
-                <p className="text-[15px] font-light text-[#425466] leading-[1.5]">
+                <p className="text-[14px] text-[rgb(112,112,112)] leading-[1.5]">
                   {skill.desc}
                 </p>
               </div>
@@ -163,19 +164,19 @@ export default function Home() {
       </section>
 
       {/* Agents */}
-      <section id="agents" className="py-24 md:py-32">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10">
-          <p className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-3">
+      <section id="agents" className="py-20 md:py-24">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
+          <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-3">
             4 Agents
           </p>
-          <h2 className="text-[32px] md:text-[40px] font-bold tracking-[-0.02em] text-[#0a2540] mb-4">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-4">
             Each agent has a clear role.
           </h2>
-          <p className="text-[19px] font-light text-[#425466] leading-[1.6] mb-16 max-w-[560px]">
+          <p className="text-[16px] text-[rgb(112,112,112)] leading-[1.6] mb-12 max-w-[520px]">
             Talk naturally and the right one activates. Or call them by name when you want a specific mode.
           </p>
 
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="grid sm:grid-cols-2 gap-4">
             {[
               {
                 name: "Assistant",
@@ -185,7 +186,7 @@ export default function Home() {
               {
                 name: "Checker",
                 trigger: '"Check it" / "Is this ready?"',
-                desc: "Reviews your work in read-only mode. Can't break anything.",
+                desc: "Reviews your work in read-only mode. Can\'t break anything.",
               },
               {
                 name: "Shipper",
@@ -195,20 +196,20 @@ export default function Home() {
               {
                 name: "Investigator",
                 trigger: '"Find the bug" / "It was working before"',
-                desc: "Deep debugs when quick fixes don't work. Traces root causes like a senior engineer.",
+                desc: "Deep debugs when quick fixes don\'t work. Traces root causes like a senior engineer.",
               },
             ].map((agent) => (
               <div
                 key={agent.name}
-                className="rounded-xl border border-[rgba(10,37,64,0.08)] bg-white p-7 shadow-[0_2px_4px_rgba(10,37,64,0.06)] hover:shadow-[0_6px_12px_rgba(10,37,64,0.08)] hover:-translate-y-0.5 transition-all duration-300"
+                className="rounded-[12px] p-6 shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] hover:bg-[rgb(245,245,245)] transition-colors duration-200"
               >
-                <h3 className="text-[20px] font-bold text-[#0a2540] mb-1">
+                <h3 className="text-[20px] font-semibold text-[rgb(20,20,20)] mb-1">
                   {agent.name}
                 </h3>
-                <p className="text-[13px] font-mono text-[#635bff] mb-3">
+                <p className="text-[12px] font-mono text-[rgb(112,112,112)] mb-3">
                   {agent.trigger}
                 </p>
-                <p className="text-[15px] font-light text-[#425466] leading-[1.6]">
+                <p className="text-[14px] text-[rgb(112,112,112)] leading-[1.6]">
                   {agent.desc}
                 </p>
               </div>
@@ -218,16 +219,16 @@ export default function Home() {
       </section>
 
       {/* DESIGN.md section */}
-      <section className="py-24 md:py-32">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10">
-          <p className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-3">
+      <section id="demo" className="py-20 md:py-24">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
+          <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-3">
             Try it now
           </p>
-          <h2 className="text-[32px] md:text-[40px] font-bold tracking-[-0.02em] text-[#0a2540] mb-4">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-4">
             Extract any website's design tokens.
           </h2>
-          <p className="text-[19px] font-light text-[#425466] leading-[1.6] mb-10 max-w-[560px]">
-            Paste a URL below. We will fetch the HTML and CSS, extract colors, fonts, spacing, shadows, and radii, and generate a downloadable DESIGN.md.
+          <p className="text-[16px] text-[rgb(112,112,112)] leading-[1.6] mb-10 max-w-[520px]">
+            Paste a URL below. We launch a headless browser, scan computed styles on every element, and generate a downloadable DESIGN.md.
           </p>
 
           <DesignExtractor />
@@ -235,16 +236,16 @@ export default function Home() {
       </section>
 
       {/* Platforms */}
-      <section className="py-24 md:py-32">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10">
-          <p className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-3">
+      <section className="py-20 md:py-24">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
+          <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-3">
             3 Platforms
           </p>
-          <h2 className="text-[32px] md:text-[40px] font-bold tracking-[-0.02em] text-[#0a2540] mb-16">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-12">
             Web, mobile, or Figma plugins.
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-4">
             {[
               {
                 name: "Web",
@@ -264,15 +265,15 @@ export default function Home() {
             ].map((platform) => (
               <div
                 key={platform.name}
-                className="rounded-xl border border-[rgba(10,37,64,0.08)] bg-white p-7 shadow-[0_2px_4px_rgba(10,37,64,0.06)] hover:shadow-[0_6px_12px_rgba(10,37,64,0.08)] hover:-translate-y-0.5 transition-all duration-300"
+                className="rounded-[12px] p-6 shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] hover:bg-[rgb(245,245,245)] transition-colors duration-200"
               >
-                <h3 className="text-[20px] font-bold text-[#0a2540] mb-1">
+                <h3 className="text-[20px] font-semibold text-[rgb(20,20,20)] mb-1">
                   {platform.name}
                 </h3>
-                <p className="text-[13px] font-mono text-[#6b7c93] mb-3">
+                <p className="text-[12px] font-mono text-[rgb(173,173,173)] mb-3">
                   {platform.stack}
                 </p>
-                <p className="text-[15px] font-light text-[#425466] leading-[1.6]">
+                <p className="text-[14px] text-[rgb(112,112,112)] leading-[1.6]">
                   {platform.desc}
                 </p>
               </div>
@@ -282,27 +283,27 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 md:py-32">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10 text-center">
-          <h2 className="text-[32px] md:text-[40px] font-bold tracking-[-0.02em] text-[#0a2540] mb-4">
+      <section className="py-20 md:py-24">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8 text-center">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-4">
             Start building in 30 seconds.
           </h2>
-          <p className="text-[19px] font-light text-[#425466] leading-[1.6] mb-10 max-w-[480px] mx-auto">
+          <p className="text-[16px] text-[rgb(112,112,112)] leading-[1.6] mb-10 max-w-[480px] mx-auto">
             One command installs everything. It asks which AI tool you use and sets up only what you need.
           </p>
-          <div className="inline-flex items-center px-8 py-4 rounded-full bg-white border border-[rgba(10,37,64,0.1)] text-[17px] font-mono text-[#0a2540] shadow-[0_2px_4px_rgba(10,37,64,0.06)] mb-6">
+          <div className="inline-flex items-center px-6 py-3.5 rounded-full bg-[rgb(245,245,245)] text-[16px] font-mono text-[rgb(20,20,20)] mb-6">
             npx vibe-ship-it init
           </div>
-          <div className="flex justify-center gap-4 mt-6">
+          <div className="flex justify-center gap-3 mt-6">
             <a
               href="https://github.com/sso-ss/vibe-ship-it"
-              className="inline-flex items-center px-7 py-3.5 rounded-full bg-gradient-to-r from-[#635bff] to-[#0073e6] text-white text-[15px] font-medium shadow-[0_2px_4px_rgba(99,91,255,0.3)] hover:shadow-[0_4px_12px_rgba(99,91,255,0.4)] hover:-translate-y-0.5 transition-all duration-200"
+              className="inline-flex items-center px-6 py-3 rounded-full bg-[rgb(20,20,20)] text-white text-[14px] font-semibold hover:bg-[rgb(50,50,50)] transition-colors duration-200"
             >
               View on GitHub
             </a>
             <a
               href="https://www.npmjs.com/package/vibe-ship-it"
-              className="inline-flex items-center px-7 py-3.5 rounded-full bg-white border border-[rgba(10,37,64,0.1)] text-[#0a2540] text-[15px] font-medium hover:border-[rgba(10,37,64,0.2)] hover:shadow-[0_2px_4px_rgba(10,37,64,0.06)] transition-all duration-200"
+              className="inline-flex items-center px-6 py-3 rounded-full shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] text-[rgb(20,20,20)] text-[14px] font-semibold hover:bg-[rgb(245,245,245)] transition-colors duration-200"
             >
               npm package
             </a>
@@ -311,16 +312,16 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-[rgba(10,37,64,0.08)]">
-        <div className="max-w-[1080px] mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-[13px] text-[#6b7c93]">
+      <footer className="py-10 border-t border-[rgb(237,237,237)]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <span className="text-[12px] text-[rgb(173,173,173)]">
             MIT License. Built for designers who want to ship.
           </span>
           <div className="flex gap-6">
-            <a href="https://github.com/sso-ss/vibe-ship-it" className="text-[13px] text-[#6b7c93] hover:text-[#635bff] transition-colors">
+            <a href="https://github.com/sso-ss/vibe-ship-it" className="text-[12px] text-[rgb(173,173,173)] hover:text-[rgb(20,20,20)] transition-colors">
               GitHub
             </a>
-            <a href="https://www.npmjs.com/package/vibe-ship-it" className="text-[13px] text-[#6b7c93] hover:text-[#635bff] transition-colors">
+            <a href="https://www.npmjs.com/package/vibe-ship-it" className="text-[12px] text-[rgb(173,173,173)] hover:text-[rgb(20,20,20)] transition-colors">
               npm
             </a>
           </div>

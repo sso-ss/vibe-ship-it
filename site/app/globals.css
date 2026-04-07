@@ -2,26 +2,26 @@
 
 :root {
   --bg: #ffffff;
-  --surface: rgba(255, 255, 255, 0.8);
-  --text-primary: #0a2540;
-  --text-secondary: #425466;
-  --text-tertiary: #6b7c93;
-  --accent: #635bff;
-  --accent-hover: #7a73ff;
-  --border: rgba(10, 37, 64, 0.08);
-  --border-subtle: rgba(10, 37, 64, 0.04);
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --surface: rgb(245, 245, 245);
+  --text-primary: rgb(20, 20, 20);
+  --text-secondary: rgb(112, 112, 112);
+  --text-tertiary: rgb(173, 173, 173);
+  --border: rgb(237, 237, 237);
+  --ring: rgba(64, 64, 64, 0.16);
+  --ring-subtle: rgba(64, 64, 64, 0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-xl: 28px;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 72px;
 }
 
 body {
   color: var(--text-primary);
   background: var(--bg);
-  font-weight: 300;
+  font-weight: 440;
 }

@@ -27,14 +27,24 @@ interface ExtractedTokens {
   blockedSources: string[];
 }
 
-function hexToHSL(hex: string): { h: number; s: number; l: number } | null {
-  const match = hex.match(/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i)
-    || hex.match(/^#?([0-9a-f])([0-9a-f])([0-9a-f])$/i);
-  if (!match) return null;
+function colorToHSL(color: string): { h: number; s: number; l: number } | null {
+  let r: number, g: number, b: number;
 
-  let r = parseInt(match[1].length === 1 ? match[1] + match[1] : match[1], 16) / 255;
-  let g = parseInt(match[2].length === 1 ? match[2] + match[2] : match[2], 16) / 255;
-  let b = parseInt(match[3].length === 1 ? match[3] + match[3] : match[3], 16) / 255;
+  // Handle rgb(r, g, b) and rgba(r, g, b, a)
+  const rgbMatch = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
+  if (rgbMatch) {
+    r = parseInt(rgbMatch[1]) / 255;
+    g = parseInt(rgbMatch[2]) / 255;
+    b = parseInt(rgbMatch[3]) / 255;
+  } else {
+    // Handle hex
+    const hexMatch = color.match(/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i)
+      || color.match(/^#?([0-9a-f])([0-9a-f])([0-9a-f])$/i);
+    if (!hexMatch) return null;
+    r = parseInt(hexMatch[1].length === 1 ? hexMatch[1] + hexMatch[1] : hexMatch[1], 16) / 255;
+    g = parseInt(hexMatch[2].length === 1 ? hexMatch[2] + hexMatch[2] : hexMatch[2], 16) / 255;
+    b = parseInt(hexMatch[3].length === 1 ? hexMatch[3] + hexMatch[3] : hexMatch[3], 16) / 255;
+  }
 
   const max = Math.max(r, g, b), min = Math.min(r, g, b);
   let h = 0, s = 0;
@@ -58,11 +68,10 @@ function assignColorRoles(
   const roles: ColorRole[] = [];
   const assigned = new Set<string>();
 
-  // Only work with hex colors for role detection
-  const hexColors = colors.filter(c => /^#[0-9a-f]{3,8}$/i.test(c));
-
-  // Sort by lightness
-  const withHSL = hexColors.map(c => ({ color: c, hsl: hexToHSL(c) })).filter(c => c.hsl !== null);
+  // Parse all colors (hex, rgb, rgba)
+  const withHSL = colors
+    .map(c => ({ color: c, hsl: colorToHSL(c) }))
+    .filter(c => c.hsl !== null);
 
   // Find roles by lightness + saturation + source
   const backgrounds = withHSL.filter(c => c.hsl!.l >= 95);
@@ -107,7 +116,7 @@ function assignColorRoles(
   }
 
   // Border: colors used in border properties
-  const borderColors = hexColors.filter(c => !assigned.has(c) && sources.get(c)?.has('border'));
+  const borderColors = colors.filter(c => !assigned.has(c) && sources.get(c)?.has('border'));
   if (borderColors.length > 0) {
     roles.push({ value: borderColors[0], role: 'Border', source: 'border' }); assigned.add(borderColors[0]);
   }
@@ -119,15 +128,8 @@ function assignColorRoles(
   }
 
   // Remaining unassigned
-  for (const c of hexColors) {
-    if (!assigned.has(c)) {
-      roles.push({ value: c, role: '', source: [...(sources.get(c) || ['other'])][0] });
-    }
-  }
-
-  // Non-hex colors (rgba, etc)
   for (const c of colors) {
-    if (!/^#[0-9a-f]{3,8}$/i.test(c)) {
+    if (!assigned.has(c)) {
       const src = [...(sources.get(c) || ['other'])][0];
       roles.push({ value: c, role: '', source: src });
     }
@@ -483,80 +485,215 @@ export async function extractDesignTokens(
     }
 
     const fetchURL = parsedURL.toString();
-    const accessibleSources: string[] = [];
-    const blockedSources: string[] = [];
 
-    // Pass 1: Fetch HTML
-    let html: string;
-    try {
-      const res = await fetch(fetchURL, {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-          Accept: "text/html",
-        },
-        signal: AbortSignal.timeout(10000),
-      });
-      if (!res.ok) return { error: `Could not reach ${parsedURL.hostname} (${res.status})` };
-      html = await res.text();
-      accessibleSources.push(fetchURL);
-    } catch {
-      return { error: `Could not reach ${parsedURL.hostname}. Check the URL and try again.` };
-    }
+    // Launch headless browser -- use @sparticuz/chromium on Vercel, Playwright locally
+    const isVercel = !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
 
-    // Extract from HTML
-    const htmlData = extractFromHTML(html);
-    let allCSS = htmlData.styleTags + "\n" + htmlData.inlineCSS;
+    let browser: { newPage: () => Promise<any>; close: () => Promise<void> };
 
-    // Pass 2: Fetch linked stylesheets
-    for (const cssURL of htmlData.stylesheetURLs.slice(0, 5)) {
-      const fullURL = cssURL.startsWith("http")
-        ? cssURL
-        : new URL(cssURL, fetchURL).toString();
+    if (isVercel) {
+      const chromium = (await import("@sparticuz/chromium")).default;
+      const puppeteer = (await import("puppeteer-core")).default;
       try {
-        const res = await fetch(fullURL, {
-          headers: {
-            "User-Agent":
-              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-            Accept: "text/css",
-          },
-          signal: AbortSignal.timeout(8000),
+        browser = await puppeteer.launch({
+          args: chromium.args,
+          defaultViewport: { width: 1440, height: 900 },
+          executablePath: await chromium.executablePath(),
+          headless: chromium.headless,
         });
-        if (res.ok) {
-          const css = await res.text();
-          allCSS += "\n" + css;
-          accessibleSources.push(fullURL);
-        } else {
-          blockedSources.push(fullURL);
-        }
       } catch {
-        blockedSources.push(fullURL);
+        return { error: "Could not launch browser on server." };
+      }
+    } else {
+      const { chromium: pw } = await import("playwright-core");
+      const os = await import("os");
+      const fs = await import("fs");
+      const path = await import("path");
+      const cacheDir = path.join(os.homedir(), "Library", "Caches", "ms-playwright");
+      let execPath: string | undefined;
+      try {
+        const dirs = fs.readdirSync(cacheDir).filter((d: string) => d.startsWith("chromium-"));
+        for (const dir of dirs) {
+          const candidate = path.join(cacheDir, dir, "chrome-mac-arm64", "Google Chrome for Testing.app", "Contents", "MacOS", "Google Chrome for Testing");
+          if (fs.existsSync(candidate)) { execPath = candidate; break; }
+          const candidate2 = path.join(cacheDir, dir, "chrome-mac", "Google Chrome for Testing.app", "Contents", "MacOS", "Google Chrome for Testing");
+          if (fs.existsSync(candidate2)) { execPath = candidate2; break; }
+        }
+      } catch { /* ignore */ }
+
+      try {
+        browser = await pw.launch({
+          headless: true,
+          ...(execPath ? { executablePath: execPath } : {}),
+        });
+      } catch {
+        return { error: "Could not launch browser. Chromium may not be installed." };
       }
     }
 
-    // Extract tokens from all collected CSS
-    const extracted = extractFromCSS(allCSS);
+    try {
+      const page = await browser.newPage();
+      // Puppeteer uses setViewport, Playwright uses setViewportSize
+      if ('setViewport' in page) {
+        await page.setViewport({ width: 1440, height: 900 });
+      } else if ('setViewportSize' in page) {
+        await page.setViewportSize({ width: 1440, height: 900 });
+      }
+      await page.goto(fetchURL, { waitUntil: "domcontentloaded", timeout: 15000 });
 
-    const tokens: ExtractedTokens = {
-      url: fetchURL,
-      colors: extracted.colors || [],
-      colorRoles: extracted.colorRoles || [],
-      fonts: extracted.fonts || [],
-      fontSizes: extracted.fontSizes || [],
-      fontWeights: extracted.fontWeights || [],
-      radii: extracted.radii || [],
-      shadows: extracted.shadows || [],
-      spacing: extracted.spacing || [],
-      transitions: extracted.transitions || [],
-      cssVars: extracted.cssVars || {},
-      meta: htmlData.meta,
-      accessibleSources,
-      blockedSources,
-    };
+      // Wait briefly for CSS-in-JS to render
+      await new Promise(r => setTimeout(r, 1000));
 
-    const markdown = generateDesignMD(tokens);
+      // Run the extraction snippet in the browser context
+      const extracted = await page.evaluate(() => {
+        const colors = new Map<string, Set<string>>();
+        const fonts = new Set<string>();
+        const fontSizes = new Set<string>();
+        const fontWeights = new Set<string>();
+        const radii = new Set<string>();
+        const shadows = new Set<string>();
+        const spacing = new Set<string>();
+        const cssVars: Record<string, string> = {};
 
-    return { tokens, markdown };
+        // Extract CSS custom properties from stylesheets
+        try {
+          for (const sheet of document.styleSheets) {
+            try {
+              for (const rule of sheet.cssRules) {
+                const style = (rule as CSSStyleRule).style;
+                if (style) {
+                  for (let i = 0; i < style.length; i++) {
+                    const prop = style[i];
+                    if (prop.startsWith("--")) {
+                      cssVars[prop] = style.getPropertyValue(prop).trim();
+                    }
+                  }
+                }
+              }
+            } catch { /* cross-origin */ }
+          }
+        } catch { /* no sheets */ }
+
+        // Get :root computed variables
+        const rootStyles = getComputedStyle(document.documentElement);
+
+        const trackColor = (val: string, src: string) => {
+          if (
+            val &&
+            val !== "rgba(0, 0, 0, 0)" &&
+            val !== "transparent" &&
+            val !== "inherit" &&
+            val !== "initial"
+          ) {
+            if (!colors.has(val)) colors.set(val, new Set());
+            colors.get(val)!.add(src);
+          }
+        };
+
+        // Sample visible elements
+        const elements = document.querySelectorAll(
+          "body *:not(script):not(style):not(link):not(meta):not(noscript)"
+        );
+        const sampled = Array.from(elements).slice(0, 300);
+
+        for (const el of sampled) {
+          const s = getComputedStyle(el);
+
+          trackColor(s.color, "text");
+          trackColor(s.backgroundColor, "background");
+          trackColor(s.borderColor, "border");
+          trackColor(s.borderTopColor, "border");
+
+          if (s.fontFamily) fonts.add(s.fontFamily);
+          if (s.fontSize && s.fontSize !== "0px") fontSizes.add(s.fontSize);
+          if (s.fontWeight) fontWeights.add(s.fontWeight);
+          if (s.borderRadius && s.borderRadius !== "0px") radii.add(s.borderRadius);
+          if (s.boxShadow && s.boxShadow !== "none") shadows.add(s.boxShadow);
+          if (s.padding && s.padding !== "0px") spacing.add(s.padding);
+          if (s.gap && s.gap !== "normal") spacing.add(s.gap);
+        }
+
+        // Theme color meta
+        const themeMeta = document.querySelector('meta[name="theme-color"]');
+        const themeColor = themeMeta
+          ? themeMeta.getAttribute("content")
+          : undefined;
+
+        // Google Fonts
+        const gfLinks = document.querySelectorAll(
+          'link[href*="fonts.googleapis.com"]'
+        );
+        const googleFonts: string[] = [];
+        gfLinks.forEach((link) => {
+          const href = link.getAttribute("href") || "";
+          const match = href.match(/family=([^&"']+)/);
+          if (match) googleFonts.push(decodeURIComponent(match[1]));
+        });
+
+        // Serialize Maps/Sets to plain objects
+        const colorArr: { value: string; sources: string[] }[] = [];
+        colors.forEach((srcs, val) => {
+          colorArr.push({ value: val, sources: Array.from(srcs) });
+        });
+
+        return {
+          title: document.title,
+          themeColor,
+          googleFonts,
+          colors: colorArr.slice(0, 40),
+          fonts: Array.from(fonts).slice(0, 10),
+          fontSizes: Array.from(fontSizes)
+            .sort((a, b) => parseFloat(a) - parseFloat(b))
+            .slice(0, 20),
+          fontWeights: Array.from(fontWeights).sort().slice(0, 10),
+          radii: Array.from(radii).slice(0, 10),
+          shadows: Array.from(shadows).slice(0, 10),
+          spacing: Array.from(spacing).slice(0, 20),
+          cssVars,
+        };
+      });
+
+      await browser.close();
+
+      // Build color roles from the browser-extracted data
+      const allColors = extracted.colors.map((c) => c.value);
+      const colorSourceMap = new Map<string, Set<string>>();
+      for (const c of extracted.colors) {
+        colorSourceMap.set(c.value, new Set(c.sources));
+      }
+      const colorRoles = assignColorRoles(allColors, colorSourceMap);
+
+      const tokens: ExtractedTokens = {
+        url: fetchURL,
+        colors: allColors,
+        colorRoles,
+        fonts: extracted.fonts,
+        fontSizes: extracted.fontSizes,
+        fontWeights: extracted.fontWeights,
+        radii: extracted.radii,
+        shadows: extracted.shadows,
+        spacing: extracted.spacing,
+        transitions: [],
+        cssVars: extracted.cssVars,
+        meta: {
+          title: extracted.title,
+          themeColor: extracted.themeColor || undefined,
+          googleFonts: extracted.googleFonts.length
+            ? extracted.googleFonts
+            : undefined,
+        },
+        accessibleSources: [fetchURL],
+        blockedSources: [],
+      };
+
+      const markdown = generateDesignMD(tokens);
+      return { tokens, markdown };
+    } catch (e) {
+      await browser.close();
+      return {
+        error: `Could not load ${parsedURL.hostname}. The site may be blocking automated access.`,
+      };
+    }
   } catch {
     return { error: "Something went wrong during extraction. Try a different URL." };
   }

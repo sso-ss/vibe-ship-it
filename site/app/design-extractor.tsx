@@ -236,20 +236,28 @@ export function DesignExtractor() {
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder='stripe.com or paste JSON from snippet'
-          className="flex-1 px-5 py-3.5 rounded-xl border border-[rgba(10,37,64,0.15)] bg-white text-[15px] text-[#0a2540] placeholder:text-[#6b7c93] focus:outline-none focus:border-[#635bff] focus:ring-2 focus:ring-[rgba(99,91,255,0.15)] transition-all"
+          placeholder='Enter a URL or paste extracted JSON'
+          className="flex-1 px-5 py-3 rounded-full shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] bg-white text-[14px] text-[rgb(20,20,20)] placeholder:text-[rgb(173,173,173)] focus:outline-none focus:shadow-[inset_0_0_0_2px_rgb(20,20,20)] transition-all"
         />
         <button
           type="submit"
           disabled={loading || !url.trim()}
-          className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#635bff] to-[#0073e6] text-white text-[15px] font-medium shadow-[0_2px_4px_rgba(99,91,255,0.3)] hover:shadow-[0_4px_12px_rgba(99,91,255,0.4)] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-[0_2px_4px_rgba(99,91,255,0.3)] whitespace-nowrap"
+          className="px-6 py-3 rounded-full bg-[rgb(20,20,20)] text-white text-[14px] font-semibold hover:bg-[rgb(50,50,50)] transition-colors duration-200 disabled:opacity-50 whitespace-nowrap"
         >
-          {loading ? "Extracting..." : "Extract"}
+          {loading ? (
+            <span className="flex items-center gap-2">
+              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              Extracting...
+            </span>
+          ) : "Extract"}
         </button>
       </form>
 
       {error && (
-        <p className="mt-4 text-[15px] text-[#e25950]">{error}</p>
+        <p className="mt-4 text-[15px] text-[rgb(220, 60, 50)]">{error}</p>
       )}
 
       {result && (
@@ -257,27 +265,27 @@ export function DesignExtractor() {
           {/* Stats */}
           <div className="flex flex-wrap gap-6 mb-6">
             <div>
-              <span className="text-[32px] font-bold text-[#0a2540] leading-none">
+              <span className="text-[32px] font-bold text-[rgb(20, 20, 20)] leading-none">
                 {result.tokenCount}
               </span>
-              <span className="text-[13px] font-medium text-[#6b7c93] ml-2">
+              <span className="text-[13px] font-medium text-[rgb(173, 173, 173)] ml-2">
                 tokens extracted
               </span>
             </div>
             <div>
-              <span className="text-[32px] font-bold text-[#30c174] leading-none">
+              <span className="text-[32px] font-bold text-[rgb(48, 193, 116)] leading-none">
                 {result.accessible}
               </span>
-              <span className="text-[13px] font-medium text-[#6b7c93] ml-2">
+              <span className="text-[13px] font-medium text-[rgb(173, 173, 173)] ml-2">
                 sources accessible
               </span>
             </div>
             {result.blocked > 0 && (
               <div>
-                <span className="text-[32px] font-bold text-[#f5a623] leading-none">
+                <span className="text-[32px] font-bold text-[rgb(200, 160, 50)] leading-none">
                   {result.blocked}
                 </span>
-                <span className="text-[13px] font-medium text-[#6b7c93] ml-2">
+                <span className="text-[13px] font-medium text-[rgb(173, 173, 173)] ml-2">
                   sources blocked
                 </span>
               </div>
@@ -287,16 +295,16 @@ export function DesignExtractor() {
           {/* Snippet fallback when extraction is weak */}
           {showSnippet && (
             <div className="mb-6 rounded-xl border border-[rgba(245,166,35,0.3)] bg-[rgba(245,166,35,0.04)] p-5">
-              <p className="text-[15px] font-medium text-[#0a2540] mb-2">
+              <p className="text-[15px] font-medium text-[rgb(20, 20, 20)] mb-2">
                 Not enough tokens from this site.
               </p>
-              <p className="text-[14px] text-[#425466] leading-relaxed mb-4">
+              <p className="text-[14px] text-[rgb(112, 112, 112)] leading-relaxed mb-4">
                 This site's CSS was mostly blocked. For full extraction, open the site in your browser, right-click and select "Inspect", go to Console, and paste this bookmarklet as a new bookmark URL. Then click it while on the site. It copies all design tokens to your clipboard. Come back here and paste.
               </p>
               <div className="flex gap-2">
                 <button
                   onClick={handleCopySnippet}
-                  className="px-5 py-2.5 rounded-lg bg-[#0a2540] text-white text-[13px] font-medium hover:bg-[#0d3050] transition-colors"
+                  className="px-5 py-2.5 rounded-lg bg-[rgb(20, 20, 20)] text-white text-[13px] font-medium hover:bg-[#0d3050] transition-colors"
                 >
                   {snippetCopied ? "Copied!" : "Copy extraction snippet"}
                 </button>
@@ -305,13 +313,13 @@ export function DesignExtractor() {
           )}
 
           {/* Tab switcher */}
-          <div className="flex gap-1 mb-4 p-1 bg-[rgba(10,37,64,0.04)] rounded-lg w-fit">
+          <div className="flex gap-1 mb-4 p-1 bg-[rgba(64,64,64,0.06)] rounded-lg w-fit">
             <button
               onClick={() => setTab("preview")}
               className={`px-4 py-2 rounded-md text-[13px] font-medium transition-all ${
                 tab === "preview"
-                  ? "bg-white text-[#0a2540] shadow-[0_1px_3px_rgba(10,37,64,0.08)]"
-                  : "text-[#6b7c93] hover:text-[#425466]"
+                  ? "bg-white text-[rgb(20, 20, 20)] shadow-[0_1px_3px_rgba(64,64,64,0.16)]"
+                  : "text-[rgb(173, 173, 173)] hover:text-[rgb(112, 112, 112)]"
               }`}
             >
               Visual Preview
@@ -320,8 +328,8 @@ export function DesignExtractor() {
               onClick={() => setTab("markdown")}
               className={`px-4 py-2 rounded-md text-[13px] font-medium transition-all ${
                 tab === "markdown"
-                  ? "bg-white text-[#0a2540] shadow-[0_1px_3px_rgba(10,37,64,0.08)]"
-                  : "text-[#6b7c93] hover:text-[#425466]"
+                  ? "bg-white text-[rgb(20, 20, 20)] shadow-[0_1px_3px_rgba(64,64,64,0.16)]"
+                  : "text-[rgb(173, 173, 173)] hover:text-[rgb(112, 112, 112)]"
               }`}
             >
               Markdown
@@ -332,26 +340,26 @@ export function DesignExtractor() {
             <div className="space-y-6">
               {/* Colors */}
               {result.tokens.colorRoles.length > 0 && (
-                <div className="rounded-xl border border-[rgba(10,37,64,0.08)] bg-white p-6">
+                <div className="rounded-xl border border-[rgba(64,64,64,0.16)] bg-white p-6">
                   {/* Role-assigned colors */}
                   {result.tokens.colorRoles.filter(c => c.role).length > 0 && (
                     <div className="mb-6">
-                      <h3 className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-4">
+                      <h3 className="text-[13px] font-medium tracking-[0.02em] text-[rgb(20, 20, 20)] uppercase mb-4">
                         Color Roles
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {result.tokens.colorRoles.filter(c => c.role).map((cr, i) => (
                           <div
                             key={i}
-                            className="flex items-center gap-4 px-4 py-3 rounded-lg border border-[rgba(10,37,64,0.06)] bg-[rgba(10,37,64,0.02)]"
+                            className="flex items-center gap-4 px-4 py-3 rounded-lg border border-[rgba(0,0,0,0.04)] bg-[rgba(64,64,64,0.04)]"
                           >
                             <div
-                              className="w-12 h-12 rounded-lg shrink-0 border border-[rgba(10,37,64,0.08)]"
+                              className="w-12 h-12 rounded-lg shrink-0 border border-[rgba(64,64,64,0.16)]"
                               style={isRenderableColor(cr.value) ? { backgroundColor: cr.value } : {}}
                             />
                             <div className="min-w-0">
-                              <p className="text-[13px] font-medium text-[#0a2540]">{cr.role}</p>
-                              <p className="text-[11px] font-mono text-[#6b7c93]">{cr.value}</p>
+                              <p className="text-[13px] font-medium text-[rgb(20, 20, 20)]">{cr.role}</p>
+                              <p className="text-[11px] font-mono text-[rgb(173, 173, 173)]">{cr.value}</p>
                             </div>
                           </div>
                         ))}
@@ -361,23 +369,23 @@ export function DesignExtractor() {
 
                   {/* Unassigned colors */}
                   {result.tokens.colorRoles.filter(c => !c.role).length > 0 && (
-                    <div className={result.tokens.colorRoles.filter(c => c.role).length > 0 ? "pt-5 border-t border-[rgba(10,37,64,0.06)]" : ""}>
-                      <h3 className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-4">
+                    <div className={result.tokens.colorRoles.filter(c => c.role).length > 0 ? "pt-5 border-t border-[rgba(0,0,0,0.04)]" : ""}>
+                      <h3 className="text-[13px] font-medium tracking-[0.02em] text-[rgb(20, 20, 20)] uppercase mb-4">
                         Other Colors ({result.tokens.colorRoles.filter(c => !c.role).length})
                       </h3>
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                         {result.tokens.colorRoles.filter(c => !c.role).map((cr, i) => (
                           <div
                             key={i}
-                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-[rgba(10,37,64,0.06)] bg-[rgba(10,37,64,0.02)]"
+                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-[rgba(0,0,0,0.04)] bg-[rgba(64,64,64,0.04)]"
                           >
                             <div
-                              className="w-10 h-10 rounded-lg shrink-0 border border-[rgba(10,37,64,0.08)]"
+                              className="w-10 h-10 rounded-lg shrink-0 border border-[rgba(64,64,64,0.16)]"
                               style={isRenderableColor(cr.value) ? { backgroundColor: cr.value } : {}}
                             />
                             <div className="min-w-0">
-                              <p className="text-[11px] font-mono text-[#425466] leading-tight break-all">{cr.value}</p>
-                              <p className="text-[10px] text-[#6b7c93]">{cr.source}</p>
+                              <p className="text-[11px] font-mono text-[rgb(112, 112, 112)] leading-tight break-all">{cr.value}</p>
+                              <p className="text-[10px] text-[rgb(173, 173, 173)]">{cr.source}</p>
                             </div>
                           </div>
                         ))}
@@ -389,8 +397,8 @@ export function DesignExtractor() {
                   {Object.entries(result.tokens.cssVars).filter(([, v]) =>
                     /^#[0-9a-f]{3,8}$/i.test(v.trim()) || /^rgba?\(/.test(v.trim())
                   ).length > 0 && (
-                    <div className="mt-5 pt-5 border-t border-[rgba(10,37,64,0.06)]">
-                      <h3 className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-4">
+                    <div className="mt-5 pt-5 border-t border-[rgba(0,0,0,0.04)]">
+                      <h3 className="text-[13px] font-medium tracking-[0.02em] text-[rgb(20, 20, 20)] uppercase mb-4">
                         CSS Variables
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -400,15 +408,15 @@ export function DesignExtractor() {
                           .map(([key, val]) => (
                             <div
                               key={key}
-                              className="flex items-center gap-3 px-3 py-2 rounded-lg border border-[rgba(10,37,64,0.06)] bg-[rgba(10,37,64,0.02)]"
+                              className="flex items-center gap-3 px-3 py-2 rounded-lg border border-[rgba(0,0,0,0.04)] bg-[rgba(64,64,64,0.04)]"
                             >
                               <div
-                                className="w-8 h-8 rounded-md shrink-0 border border-[rgba(10,37,64,0.08)]"
+                                className="w-8 h-8 rounded-md shrink-0 border border-[rgba(64,64,64,0.16)]"
                                 style={{ backgroundColor: val.trim() }}
                               />
                               <div className="min-w-0">
-                                <p className="text-[11px] font-mono text-[#0a2540] truncate">{key}</p>
-                                <p className="text-[10px] font-mono text-[#6b7c93]">{val.trim()}</p>
+                                <p className="text-[11px] font-mono text-[rgb(20, 20, 20)] truncate">{key}</p>
+                                <p className="text-[10px] font-mono text-[rgb(173, 173, 173)]">{val.trim()}</p>
                               </div>
                             </div>
                           ))}
@@ -420,13 +428,13 @@ export function DesignExtractor() {
 
               {/* Typography */}
               {(result.tokens.fonts.length > 0 || result.tokens.meta.googleFonts?.length) && (
-                <div className="rounded-xl border border-[rgba(10,37,64,0.08)] bg-white p-6">
-                  <h3 className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-4">
+                <div className="rounded-xl border border-[rgba(64,64,64,0.16)] bg-white p-6">
+                  <h3 className="text-[13px] font-medium tracking-[0.02em] text-[rgb(20, 20, 20)] uppercase mb-4">
                     Typography
                   </h3>
                   {result.tokens.meta.googleFonts?.map((f) => (
-                    <p key={f} className="text-[15px] text-[#0a2540] mb-2">
-                      <span className="text-[11px] font-medium text-[#6b7c93] uppercase tracking-wider mr-2">Google Font</span>
+                    <p key={f} className="text-[15px] text-[rgb(20, 20, 20)] mb-2">
+                      <span className="text-[11px] font-medium text-[rgb(173, 173, 173)] uppercase tracking-wider mr-2">Google Font</span>
                       {f}
                     </p>
                   ))}
@@ -435,15 +443,15 @@ export function DesignExtractor() {
                     .slice(0, 5)
                     .map((f, i) => (
                       <div key={i} className="mb-3">
-                        <p className="text-[11px] font-mono text-[#6b7c93] mb-1 truncate">{f}</p>
-                        <p className="text-[24px] text-[#0a2540] truncate" style={{ fontFamily: f }}>
+                        <p className="text-[11px] font-mono text-[rgb(173, 173, 173)] mb-1 truncate">{f}</p>
+                        <p className="text-[24px] text-[rgb(20, 20, 20)] truncate" style={{ fontFamily: f }}>
                           The quick brown fox jumps over the lazy dog
                         </p>
                       </div>
                     ))}
                   {result.tokens.fontWeights.length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-[rgba(10,37,64,0.06)]">
-                      <p className="text-[11px] font-medium text-[#6b7c93] uppercase tracking-wider mb-2">Weights</p>
+                    <div className="mt-4 pt-4 border-t border-[rgba(0,0,0,0.04)]">
+                      <p className="text-[11px] font-medium text-[rgb(173, 173, 173)] uppercase tracking-wider mb-2">Weights</p>
                       <div className="flex flex-wrap gap-2">
                         {result.tokens.fontWeights
                           .filter(w => /^\d{3}$|^(normal|bold|lighter|bolder)$/.test(w) || /^var\(/.test(w))
@@ -452,7 +460,7 @@ export function DesignExtractor() {
                             return (
                               <span
                                 key={w}
-                                className="text-[15px] text-[#0a2540] px-3 py-1.5 rounded-md border border-[rgba(10,37,64,0.06)] bg-[rgba(10,37,64,0.02)] font-mono"
+                                className="text-[15px] text-[rgb(20, 20, 20)] px-3 py-1.5 rounded-md border border-[rgba(0,0,0,0.04)] bg-[rgba(64,64,64,0.04)] font-mono"
                                 style={isNumeric ? { fontWeight: w } : {}}
                               >
                                 {w}
@@ -463,8 +471,8 @@ export function DesignExtractor() {
                     </div>
                   )}
                   {result.tokens.fontSizes.length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-[rgba(10,37,64,0.06)]">
-                      <p className="text-[11px] font-medium text-[#6b7c93] uppercase tracking-wider mb-2">Scale</p>
+                    <div className="mt-4 pt-4 border-t border-[rgba(0,0,0,0.04)]">
+                      <p className="text-[11px] font-medium text-[rgb(173, 173, 173)] uppercase tracking-wider mb-2">Scale</p>
                       <div className="flex flex-wrap gap-2">
                         {result.tokens.fontSizes
                           .filter(s => s.length < 30)
@@ -472,7 +480,7 @@ export function DesignExtractor() {
                           .map((s, i) => (
                             <span
                               key={i}
-                              className="font-mono text-[11px] text-[#425466] px-2 py-1 rounded bg-[rgba(10,37,64,0.04)]"
+                              className="font-mono text-[11px] text-[rgb(112, 112, 112)] px-2 py-1 rounded bg-[rgba(64,64,64,0.06)]"
                             >
                               {s}
                             </span>
@@ -485,10 +493,10 @@ export function DesignExtractor() {
 
               {/* Shapes: Radius + Shadows */}
               {(result.tokens.radii.length > 0 || result.tokens.shadows.length > 0) && (
-                <div className="rounded-xl border border-[rgba(10,37,64,0.08)] bg-white p-6">
+                <div className="rounded-xl border border-[rgba(64,64,64,0.16)] bg-white p-6">
                   {result.tokens.radii.length > 0 && (
                     <div className="mb-6">
-                      <h3 className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-4">
+                      <h3 className="text-[13px] font-medium tracking-[0.02em] text-[rgb(20, 20, 20)] uppercase mb-4">
                         Border Radius
                       </h3>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -497,13 +505,13 @@ export function DesignExtractor() {
                           return (
                             <div
                               key={i}
-                              className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-[rgba(10,37,64,0.06)] bg-[rgba(10,37,64,0.02)]"
+                              className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-[rgba(0,0,0,0.04)] bg-[rgba(64,64,64,0.04)]"
                             >
                               <div
-                                className="w-10 h-10 bg-[#635bff] shrink-0"
+                                className="w-10 h-10 bg-[rgb(20, 20, 20)] shrink-0"
                                 style={resolved ? { borderRadius: resolved } : {}}
                               />
-                              <span className="text-[12px] font-mono text-[#425466] leading-tight">
+                              <span className="text-[12px] font-mono text-[rgb(112, 112, 112)] leading-tight">
                                 {r}{resolved && !isResolvableValue(r) ? ` = ${resolved}` : ''}
                               </span>
                             </div>
@@ -513,8 +521,8 @@ export function DesignExtractor() {
                     </div>
                   )}
                   {result.tokens.shadows.length > 0 && (
-                    <div className={result.tokens.radii.length > 0 ? "pt-6 border-t border-[rgba(10,37,64,0.06)]" : ""}>
-                      <h3 className="text-[13px] font-medium tracking-[0.02em] text-[#635bff] uppercase mb-4">
+                    <div className={result.tokens.radii.length > 0 ? "pt-6 border-t border-[rgba(0,0,0,0.04)]" : ""}>
+                      <h3 className="text-[13px] font-medium tracking-[0.02em] text-[rgb(20, 20, 20)] uppercase mb-4">
                         Shadows
                       </h3>
                       {/* Renderable shadows (no var references) */}
@@ -523,13 +531,13 @@ export function DesignExtractor() {
                           {result.tokens.shadows.filter(s => isResolvableValue(s)).slice(0, 6).map((s, i) => (
                             <div
                               key={i}
-                              className="flex items-center gap-4 p-3 rounded-lg border border-[rgba(10,37,64,0.04)]"
+                              className="flex items-center gap-4 p-3 rounded-lg border border-[rgba(64,64,64,0.06)]"
                             >
                               <div
-                                className="w-14 h-14 bg-white rounded-lg shrink-0 border border-[rgba(10,37,64,0.04)]"
+                                className="w-14 h-14 bg-white rounded-lg shrink-0 border border-[rgba(64,64,64,0.06)]"
                                 style={{ boxShadow: s }}
                               />
-                              <code className="text-[11px] font-mono text-[#6b7c93] leading-relaxed break-all">
+                              <code className="text-[11px] font-mono text-[rgb(173, 173, 173)] leading-relaxed break-all">
                                 {s}
                               </code>
                             </div>
@@ -539,14 +547,14 @@ export function DesignExtractor() {
                       {/* Unresolvable shadows (var references) -- show as token list */}
                       {result.tokens.shadows.filter(s => !isResolvableValue(s)).length > 0 && (
                         <div>
-                          <p className="text-[11px] font-medium text-[#6b7c93] uppercase tracking-wider mb-2">
+                          <p className="text-[11px] font-medium text-[rgb(173, 173, 173)] uppercase tracking-wider mb-2">
                             Variable-based shadows
                           </p>
                           <div className="grid gap-1.5">
                             {result.tokens.shadows.filter(s => !isResolvableValue(s)).slice(0, 6).map((s, i) => (
                               <code
                                 key={i}
-                                className="text-[11px] font-mono text-[#425466] leading-relaxed px-3 py-2 rounded-md bg-[rgba(10,37,64,0.03)] break-all"
+                                className="text-[11px] font-mono text-[rgb(112, 112, 112)] leading-relaxed px-3 py-2 rounded-md bg-[rgba(64,64,64,0.04)] break-all"
                               >
                                 {s}
                               </code>
@@ -561,7 +569,7 @@ export function DesignExtractor() {
             </div>
           ) : (
             /* Markdown view */
-            <div className="rounded-xl border border-[rgba(10,37,64,0.08)] bg-[#0a2540] p-6 shadow-[0_13px_27px_rgba(10,37,64,0.15)] max-h-[400px] overflow-y-auto">
+            <div className="rounded-xl border border-[rgba(64,64,64,0.16)] bg-[rgb(20, 20, 20)] p-6 shadow-[0_13px_27px_rgba(64,64,64,0.16)] max-h-[400px] overflow-y-auto">
               <pre className="text-[13px] font-mono leading-[1.7] text-white/70 whitespace-pre-wrap break-words">
                 {result.markdown}
               </pre>
@@ -572,20 +580,20 @@ export function DesignExtractor() {
           <div className="flex gap-3 mt-4">
             <button
               onClick={handleDownload}
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#635bff] to-[#0073e6] text-white text-[15px] font-medium shadow-[0_2px_4px_rgba(99,91,255,0.3)] hover:shadow-[0_4px_12px_rgba(99,91,255,0.4)] hover:-translate-y-0.5 transition-all duration-200"
+              className="px-6 py-3 rounded-full bg-[rgb(20,20,20)] text-white text-[14px] font-semibold hover:bg-[rgb(50,50,50)] transition-colors duration-200"
             >
               Download DESIGN.md
             </button>
             <button
               onClick={handleCopy}
-              className="px-6 py-3 rounded-xl bg-white border border-[rgba(10,37,64,0.1)] text-[#0a2540] text-[15px] font-medium hover:border-[rgba(10,37,64,0.2)] hover:shadow-[0_2px_4px_rgba(10,37,64,0.06)] transition-all duration-200"
+              className="px-6 py-3 rounded-full shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] text-[rgb(20,20,20)] text-[14px] font-semibold hover:bg-[rgb(245,245,245)] transition-colors duration-200"
             >
               Copy to clipboard
             </button>
           </div>
 
           {result.blocked > 0 && (
-            <p className="mt-4 text-[13px] text-[#6b7c93] leading-relaxed max-w-[560px]">
+            <p className="mt-4 text-[13px] text-[rgb(173, 173, 173)] leading-relaxed max-w-[560px]">
               Some CSS sources were blocked. Paste this file into your AI agent and say
               "fill in the missing sections" for a complete DESIGN.md.
             </p>
