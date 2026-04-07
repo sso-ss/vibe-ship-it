@@ -499,7 +499,7 @@ export async function extractDesignTokens(
           args: chromium.args,
           defaultViewport: { width: 1440, height: 900 },
           executablePath: await chromium.executablePath(),
-          headless: chromium.headless,
+          headless: true,
         });
       } catch {
         return { error: "Could not launch browser on server." };
@@ -656,9 +656,9 @@ export async function extractDesignTokens(
       await browser.close();
 
       // Build color roles from the browser-extracted data
-      const allColors = extracted.colors.map((c) => c.value);
+      const allColors = extracted.colors.map((c: { value: string; sources: string[] }) => c.value);
       const colorSourceMap = new Map<string, Set<string>>();
-      for (const c of extracted.colors) {
+      for (const c of extracted.colors as { value: string; sources: string[] }[]) {
         colorSourceMap.set(c.value, new Set(c.sources));
       }
       const colorRoles = assignColorRoles(allColors, colorSourceMap);
