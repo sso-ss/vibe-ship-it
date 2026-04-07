@@ -33,6 +33,8 @@ If no pages exist yet, start from smart defaults that look like a real product.
 ### If `DESIGN.md` exists
 Use it as the source of truth. Extract tokens directly from the DESIGN.md file -- colors, type scale, spacing, radii, shadows, motion. Map them to the token names below and generate primitives wired to those values. Do not re-extract from the existing UI. DESIGN.md wins.
 
+**Token mapping from DESIGN.md:** DESIGN.md uses richer names than the token table below. Map them: `text-primary` → `text`, `text-secondary`/`text-tertiary` → `muted`, `surface` → use as card/panel background, `accent-hover` → generate hover variant of `accent`, `border-subtle` → lighter shade of `border`. Drop `accent-gradient` into button/CTA styles directly. Ignore any DESIGN.md tokens not listed below -- they are implementation hints, not system tokens.
+
 ### If pages already exist (no DESIGN.md)
 Extract tokens from the current UI. Preserve the existing look. The system should formalize what's already there, not redesign it.
 

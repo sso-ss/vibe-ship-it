@@ -29,26 +29,69 @@ One command. No questions. The output is a markdown file, not code.
 
 ## Extraction Process
 
-### Step 1: Fetch
+### Step 1: Fetch (multi-pass)
 
-Fetch the target URL's HTML. Then fetch every linked stylesheet (`<link rel="stylesheet">`). Also extract inline `<style>` blocks. If the site uses CSS custom properties (variables), capture the full `:root` or `[data-theme]` block.
+Do multiple fetches to maximize what you capture:
+
+**Pass 1: HTML**
+Fetch the target URL. From the HTML, extract:
+- All `<link rel="stylesheet" href="...">` URLs
+- All `<style>` blocks (including `<style data-*>` for CSS-in-JS SSR output)
+- All `style="..."` inline attributes on elements
+- `<meta name="theme-color" content="...">` for brand color
+- Google Fonts / Typekit `<link>` URLs (reveals exact font families and weights)
+- `<link rel="icon">` and `<link rel="apple-touch-icon">` (brand color clues)
+
+**Pass 2: CSS files**
+Fetch each discovered stylesheet URL. If a URL returns 403/404:
+- Try removing query strings
+- Try the base domain + `/styles.css`, `/main.css`, `/globals.css`
+- Try common CDN patterns: `cdn.example.com/css/...`
+- Move on if blocked -- note which sources were inaccessible
+
+**Pass 3: Critical CSS extraction**
+Many modern sites inline critical CSS in `<style>` tags in the `<head>`. This often contains:
+- CSS custom properties (`:root { --color-primary: ... }`)
+- Font-face declarations
+- Key component styles
+- Media queries with breakpoints
+
+This is often the richest source -- don't skip it.
 
 ### Step 2: Extract Raw Tokens
 
-Pull these from the collected CSS:
+Pull these from ALL collected sources (external CSS + inline styles + style blocks):
 
 | What | Where to look |
 |---|---|
-| Colors | CSS custom properties, `color`, `background-color`, `border-color`, `fill`, `box-shadow` color values |
-| Fonts | `font-family`, `@font-face`, Google Fonts / Typekit links |
-| Type scale | `font-size`, `font-weight`, `line-height`, `letter-spacing` across selectors |
-| Spacing | `padding`, `margin`, `gap` values -- find the repeating scale |
-| Radii | `border-radius` values across components |
-| Shadows | `box-shadow` declarations -- note the layering patterns |
+| Colors | CSS custom properties, `color`, `background-color`, `border-color`, `fill`, `box-shadow` color values, `style="color:..."` inline, `meta[theme-color]` |
+| Fonts | `font-family`, `@font-face`, Google Fonts URL params (`?family=Inter:wght@300;400;700`), Typekit kit IDs |
+| Type scale | `font-size`, `font-weight`, `line-height`, `letter-spacing` -- collect ALL unique values and sort |
+| Spacing | `padding`, `margin`, `gap` -- collect unique values, find the base unit (most common divisor) |
+| Radii | `border-radius` -- collect all unique values across components |
+| Shadows | `box-shadow` -- capture full declarations including multi-layer stacks |
 | Borders | `border` shorthand and individual properties |
-| Transitions | `transition`, `animation` properties |
+| Transitions | `transition`, `animation`, `@keyframes` declarations |
+| Breakpoints | `@media` queries -- extract all width breakpoints |
 
-### Step 3: Analyze Patterns
+### Step 3: Verify, don't guess
+
+**Extracted** = you found the exact value in HTML, CSS, or inline styles. Mark these with confidence.
+
+**Inferred** = you deduced the value from patterns (e.g., "body text is probably 16px based on the type scale"). Note these in the output with `(inferred)` so the designer knows.
+
+**Known** = you recognize the site and fill from general knowledge. This is valid but must be flagged: add a note at the top of the DESIGN.md if significant portions came from recognition rather than extraction. Known values come from training data that may be months or years old. If a site has redesigned since then, known values will be confidently wrong. If more than 30% of tokens are "known" with zero extracted confirmation, add a warning that values may reflect an older version of the site.
+
+**Source priority when values conflict:** External stylesheet > inline `<style>` blocks > `style=""` attributes > known. This inverts normal CSS specificity on purpose: inline `style` attributes are often one-off overrides, not canonical design tokens. The stylesheet is where the real system lives. When two sources disagree on the same property, use the higher-priority source and drop the other silently.
+
+If the output is mostly inferred/known (CSS was blocked, JS-rendered, etc.), add this note at the top:
+```
+> Note: CSS files were not fully accessible. Some values are based on 
+> visual analysis of the site's publicly visible HTML and known design patterns.
+> Verify accent colors and exact spacing values against the live site.
+```
+
+### Step 4: Analyze Patterns
 
 From the raw tokens, identify:
 - **Color roles**: Which color is background? Primary text? Accent? Secondary text? Border?
@@ -58,7 +101,7 @@ From the raw tokens, identify:
 - **Shadow philosophy**: Flat? Subtle elevation? Heavy depth? Shadow-as-border?
 - **Shape language**: Sharp corners? Rounded? Pills? Mixed?
 
-### Step 4: Interpret the Atmosphere
+### Step 5: Interpret the Atmosphere
 
 Read the design decisions as a whole. What does this site feel like?
 - Dense or spacious?
@@ -243,7 +286,15 @@ Good: "Don't use weight 700 (bold) on body text -- 600 is the maximum, used only
 
 ## Handling Edge Cases
 
-### JS-rendered sites
+### CSS blocked (403/404)
+Many CDNs (Stripe, Vercel) block direct stylesheet access. When this happens:
+1. Lean heavily on `<style>` blocks in the HTML -- SSR'd sites often inline critical CSS
+2. Parse every `style="..."` attribute from the HTML elements
+3. Check Google Fonts / Typekit links for exact font info
+4. Use `meta[theme-color]` for the brand color
+5. Flag in the output that CSS was partially inaccessible
+
+### JS-rendered sites (SPA)
 If the initial HTML fetch is sparse (SPA), note this and work with whatever CSS is available. The stylesheets usually contain the full token set even if the HTML is dynamic.
 
 ### Sites with multiple themes
@@ -253,7 +304,7 @@ If the site has light/dark modes, fill both columns of the Dark Mode table in Se
 Focus on the marketing/landing page, not the product UI. The landing page is what the designer saw and wants to replicate.
 
 ### Minimal information available
-If CSS extraction is limited, use the HTML structure and inline styles to infer as much as possible. Be transparent about what was inferred vs. extracted.
+If CSS extraction is limited, use the HTML structure and inline styles to infer as much as possible. Add the accuracy note at the top of the file. Never silently fill gaps with guesses -- be transparent.
 
 ## After Generation
 
