@@ -13,10 +13,14 @@ Takes a website URL and produces a complete DESIGN.md file -- a plain-text desig
 2. Fetch the page HTML and all linked CSS
 3. Extract every visual token: colors, fonts, spacing, shadows, radii, component patterns
 4. Analyze the visual atmosphere and design philosophy
-5. Write a DESIGN.md in our 8-section format (optimized for AI agents, not human essays)
-6. Drop it in the project root
+5. Detect the page structure (sections, grids, layout patterns)
+6. Generate three files:
+   - `DESIGN.md` -- the complete design system (8 sections)
+   - Tailwind config extension -- tokens mapped to utility classes
+   - CSS variables -- tokens as custom properties in globals.css
+7. Drop them in the project
 
-One command. No questions. The output is a markdown file, not code.
+One command. No questions. The designer just sees the result.
 
 ## When To Use
 
@@ -341,11 +345,100 @@ If CSS extraction is limited, use the HTML structure and inline styles to infer 
 
 ## After Generation
 
-Place the file at the project root as `DESIGN.md`. Say something like:
-- "Your design reference is ready. Any page you build now will follow [site name]'s visual style."
-- "Captured [site name]'s design. Colors, type, spacing, components -- it's all in DESIGN.md."
+Place the file at the project root as `DESIGN.md`. Then generate two companion files automatically:
 
-Do not explain every section. The designer doesn't need a walkthrough of what a DESIGN.md is.
+### 1. Tailwind Config Extension
+
+Create or update `tailwind.config.ts` (or the equivalent) with the extracted tokens mapped to Tailwind's theme:
+
+```ts
+// Auto-generated from DESIGN.md
+theme: {
+  extend: {
+    colors: {
+      background: 'rgb(255, 255, 255)',
+      surface: 'rgb(245, 245, 245)',
+      'text-primary': 'rgb(20, 20, 20)',
+      'text-secondary': 'rgb(112, 112, 112)',
+      'text-tertiary': 'rgb(173, 173, 173)',
+      accent: '#635bff',
+      border: 'rgb(237, 237, 237)',
+      // ... all extracted color tokens
+    },
+    borderRadius: {
+      sm: '8px',
+      md: '12px',
+      lg: '24px',
+      xl: '28px',
+      full: '9999px',
+    },
+    boxShadow: {
+      ring: 'inset 0 0 0 1px rgba(64, 64, 64, 0.16)',
+      low: '0 1px 2px rgba(0, 0, 0, 0.04)',
+      // ... all extracted shadows
+    },
+    fontWeight: {
+      normal: '400',
+      medium: '500',
+      semibold: '600',
+    },
+  },
+}
+```
+
+This lets the agent write `bg-background`, `text-text-primary`, `rounded-md`, `shadow-ring` instead of hardcoding values everywhere. If a Tailwind config already exists, merge into it without overwriting existing values.
+
+### 2. CSS Variables
+
+Add to `globals.css` (or the project's main CSS file):
+
+```css
+:root {
+  --background: rgb(255, 255, 255);
+  --surface: rgb(245, 245, 245);
+  --text-primary: rgb(20, 20, 20);
+  --text-secondary: rgb(112, 112, 112);
+  --border: rgb(237, 237, 237);
+  --accent: #635bff;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --shadow-ring: inset 0 0 0 1px rgba(64, 64, 64, 0.16);
+  /* ... all extracted tokens */
+}
+```
+
+If the file already has `:root` variables, merge without overwriting.
+
+### 3. Page Structure (if detectable)
+
+Analyze the reference site's HTML structure and add a `## Page Structure` section at the end of DESIGN.md:
+
+```markdown
+## Page Structure
+
+Detected layout pattern from [site]:
+
+1. **Nav:** Sticky header, logo left, links center, CTA right
+2. **Hero:** Full-width, large heading centered, subtitle below, 2 buttons
+3. **Metrics:** 4-column stat grid with large numbers
+4. **Features:** 3-column card grid, icon + title + description per card
+5. **Testimonials:** 2-column quote cards with avatar + company
+6. **CTA:** Centered heading + button, full-width section
+7. **Footer:** Logo, link columns, copyright
+
+Grid patterns:
+- Feature grids: 3 columns on desktop, 1 on mobile
+- Card gaps: 16-24px
+- Section padding: 80-96px vertical
+```
+
+Detect this from the DOM tree -- look at semantic elements (`<nav>`, `<header>`, `<section>`, `<footer>`), grid/flex containers, column counts, and heading hierarchy. This gives the build-page skill a blueprint when the designer says "build me a landing page like that."
+
+### After creating all files, say:
+- "Your design reference is ready. Tailwind config and CSS variables are set up. Any page you build now follows [site name]'s style."
+
+Do not explain every section. The designer doesn't need a walkthrough.
 
 ## What Not To Do
 
