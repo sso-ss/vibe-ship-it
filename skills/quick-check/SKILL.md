@@ -1,6 +1,6 @@
 ---
 name: quick-check
-description: "Fast 3-item quality check. Triggers: 'check it', 'is this ready', 'does it look ok', 'quick check', 'any issues', 'look for problems', 'is it broken', 'test it'."
+description: "Fast 4-item quality check. Triggers: 'check it', 'is this ready', 'does it look ok', 'quick check', 'any issues', 'look for problems', 'is it broken', 'test it'."
 ---
 
 # Quick Check

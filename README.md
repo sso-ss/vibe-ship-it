@@ -4,10 +4,11 @@
 [![npm downloads](https://img.shields.io/npm/dw/vibe-ship-it)](https://www.npmjs.com/package/vibe-ship-it)
 [![license](https://img.shields.io/npm/l/vibe-ship-it)](https://github.com/sso-ss/vibe-ship-it/blob/main/LICENSE)
 
-A set of AI agents and skills that help designers vibe-code their ideas to life — without learning programming.
+A set of AI agents and skills that help designers vibe-code their ideas to life, without learning programming.
 
 Works with **VS Code Copilot**, **Claude Code**, and **OpenAI Codex**.
 
+- Live site: https://vibe-ship-it.vercel.app
 - GitHub: https://github.com/sso-ss/vibe-ship-it
 - npm: https://www.npmjs.com/package/vibe-ship-it
 
@@ -157,6 +158,21 @@ skills/
 
 ## How DESIGN.md works
 
+The `generate-design-md` skill fetches a website's HTML and all linked CSS files, then extracts every visual token into a structured document that AI agents can read.
+
+**What it extracts:**
+- Full color system with HSL tokens and semantic roles (background, text, border, status)
+- Typography scale with font families, sizes, weights, line heights, and letter spacing
+- Spacing grid, container widths, and section gaps
+- Border radius scale, shadow system (including inset shadow-as-border techniques)
+- Motion tokens: durations, easing curves, backdrop blur values
+- Component patterns: buttons, cards, inputs, navigation
+- State treatments: hover, focus, active, disabled, loading, error
+- Dark mode mappings when present
+- Responsive breakpoints and what changes at each
+
+**Confidence tracking:** Each token is marked as `extracted` (found in CSS), `inferred` (deduced from patterns), or `known` (recognized from training data). If CSS files are blocked, a warning is added.
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  DESIGNER INPUT                                                 │
@@ -172,9 +188,9 @@ skills/
 │                      ▼       ▼                                  │
 │               ┌──────────────────┐                              │
 │               │    DESIGN.md     │                              │
-│               │  (source of      │                              │
-│               │   truth for all  │                              │
-│               │   visual tokens) │                              │
+│               │  8-section       │                              │
+│               │  token system    │                              │
+│               │  with HSL vars   │                              │
 │               └────────┬─────────┘                              │
 │                        │                                        │
 │              ┌─────────┼─────────┐                              │
@@ -192,7 +208,21 @@ skills/
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+**DESIGN.md sections:**
+1. Identity: visual personality in one line + signature techniques
+2. Color: full palette with semantic roles, neutral scale, dark mode
+3. Typography: fonts, scale, weight strategy
+4. Spacing & Layout: base unit, container, border radius
+5. Depth & Motion: elevation system, transitions, backdrop blur
+6. Components: buttons, cards, inputs, navigation, signature patterns
+7. States: hover, focus, active, disabled, loading, empty, error
+8. Rules: specific do's and don'ts with actual values
+
 Rule 0 enforces this: every agent silently checks for `DESIGN.md` before any work. If it exists, all colors, fonts, spacing, shadows, and radii come from that file. No inventing new values.
+
+## Try it live
+
+The [live site](https://vibe-ship-it.vercel.app) includes a design token extractor. Paste any URL and get a downloadable DESIGN.md with the full 8-section structure, Tailwind config, and CSS variables.
 
 ## Design principles
 

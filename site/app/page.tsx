@@ -4,22 +4,22 @@ export default function Home() {
   return (
     <main>
       {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-[24px] bg-white/80 border-b border-[rgb(237,237,237)]">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 flex items-center justify-between h-14">
-          <span className="text-[14px] font-semibold tracking-tight text-[rgb(20,20,20)]">
+      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-[24px] bg-[hsl(var(--background-primary)/0.8)] border-b border-[hsl(var(--border-divider))]">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-8 flex items-center justify-between h-[52px] md:h-[72px]">
+          <span className="text-[14px] font-semibold tracking-[-0.4px] text-[hsl(var(--text-primary))]">
             vibe-ship-it
           </span>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#how" className="text-[14px] text-[rgb(112,112,112)] hover:text-[rgb(20,20,20)] transition-colors">How it works</a>
-            <a href="#skills" className="text-[14px] text-[rgb(112,112,112)] hover:text-[rgb(20,20,20)] transition-colors">Skills</a>
-            <a href="#agents" className="text-[14px] text-[rgb(112,112,112)] hover:text-[rgb(20,20,20)] transition-colors">Agents</a>
-            <a href="#demo" className="text-[14px] text-[rgb(112,112,112)] hover:text-[rgb(20,20,20)] transition-colors">Demo</a>
+            <a href="#how" className="text-[14px] text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))] transition-colors duration-[var(--duration-base)]">How it works</a>
+            <a href="#skills" className="text-[14px] text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))] transition-colors duration-[var(--duration-base)]">Skills</a>
+            <a href="#agents" className="text-[14px] text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))] transition-colors duration-[var(--duration-base)]">Agents</a>
+            <a href="#demo" className="text-[14px] text-[hsl(var(--text-secondary))] hover:text-[hsl(var(--text-primary))] transition-colors duration-[var(--duration-base)]">Demo</a>
           </div>
           <a
             href="https://github.com/sso-ss/vibe-ship-it"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-5 py-2 rounded-full bg-[rgb(20,20,20)] text-white text-[14px] font-semibold hover:bg-[rgb(50,50,50)] transition-colors"
+            className="inline-flex items-center px-5 py-2 rounded-full bg-[hsl(var(--background-inverse))] text-[hsl(var(--text-inverse))] text-[14px] font-semibold hover:bg-[hsl(var(--background-inverse-hover))] transition-colors duration-[var(--duration-base)]"
           >
             GitHub
           </a>
@@ -28,25 +28,25 @@ export default function Home() {
 
       {/* Hero */}
       <section className="pt-36 pb-20">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-8">
           <div className="max-w-[720px]">
-            <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-4">
+            <p className="text-[12px] font-medium tracking-[0.2px] text-[hsl(var(--text-secondary))] uppercase mb-4">
               Open-source skill pack
             </p>
-            <h1 className="text-[40px] md:text-[56px] lg:text-[80px] font-semibold leading-[1.05] tracking-[-0.02em] text-[rgb(20,20,20)] mb-6">
+            <h1 className="text-[40px] md:text-[56px] lg:text-[80px] font-semibold leading-[1] tracking-[-3px] lg:tracking-[-5px] text-[hsl(var(--text-primary))] mb-6">
               AI skills for designers who code
             </h1>
-            <p className="text-[16px] md:text-[20px] leading-[1.6] text-[rgb(112,112,112)] mb-10 max-w-[560px]">
+            <p className="text-[16px] md:text-[20px] leading-[1.6] text-[hsl(var(--text-secondary))] mb-10 max-w-[560px]">
               14 skills and 4 agents that help you build real products by talking naturally. Works with VS Code Copilot, Claude Code, and OpenAI Codex.
             </p>
             <div className="flex flex-wrap gap-3">
               <a
                 href="https://github.com/sso-ss/vibe-ship-it"
-                className="inline-flex items-center px-6 py-3 rounded-full bg-[rgb(20,20,20)] text-white text-[14px] font-semibold hover:bg-[rgb(50,50,50)] transition-colors duration-200"
+                className="inline-flex items-center px-6 py-3 rounded-full bg-[hsl(var(--background-inverse))] text-[hsl(var(--text-inverse))] text-[14px] font-semibold hover:bg-[hsl(var(--background-inverse-hover))] transition-colors duration-[var(--duration-base)]"
               >
                 Get started
               </a>
-              <div className="inline-flex items-center px-5 py-3 rounded-full bg-[rgb(245,245,245)] text-[rgb(20,20,20)] text-[14px] font-mono">
+              <div className="inline-flex items-center px-5 py-3 rounded-full bg-[hsl(var(--background-secondary))] text-[hsl(var(--text-primary))] text-[14px] font-mono">
                 npx vibe-ship-it init
               </div>
             </div>
@@ -55,8 +55,8 @@ export default function Home() {
       </section>
 
       {/* Metrics */}
-      <section className="py-14 border-y border-[rgb(237,237,237)]">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
+      <section className="py-14 border-y border-[hsl(var(--border-divider))]">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { number: "14", label: "Skills" },
@@ -65,10 +65,10 @@ export default function Home() {
               { number: "0", label: "Config files needed" },
             ].map((item) => (
               <div key={item.label} className="text-center">
-                <div className="text-[48px] md:text-[56px] font-semibold tracking-[-0.02em] text-[rgb(20,20,20)] leading-none">
+                <div className="text-[48px] md:text-[56px] font-semibold tracking-[-3px] text-[hsl(var(--text-primary))] leading-none">
                   {item.number}
                 </div>
-                <div className="text-[14px] text-[rgb(112,112,112)] mt-2">
+                <div className="text-[14px] text-[hsl(var(--text-secondary))] mt-2">
                   {item.label}
                 </div>
               </div>
@@ -79,14 +79,14 @@ export default function Home() {
 
       {/* How it works */}
       <section id="how" className="py-20 md:py-24">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
-          <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-3">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-8">
+          <p className="text-[12px] font-medium tracking-[0.2px] text-[hsl(var(--text-secondary))] uppercase mb-3">
             How it works
           </p>
-          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-4">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.6px] text-[hsl(var(--text-primary))] mb-4">
             Talk naturally. Build real things.
           </h2>
-          <p className="text-[16px] text-[rgb(112,112,112)] leading-[1.6] mb-12 max-w-[520px]">
+          <p className="text-[16px] text-[hsl(var(--text-secondary))] leading-[1.6] mb-12 max-w-[520px]">
             No commands to memorize. Describe what you want and the right skill activates automatically.
           </p>
 
@@ -103,12 +103,12 @@ export default function Home() {
             ].map((item) => (
               <div
                 key={item.say}
-                className="rounded-[12px] p-5 shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] hover:bg-[rgb(245,245,245)] transition-colors duration-200"
+                className="rounded-[var(--radius-md)] p-5 shadow-[var(--shadow-image-inset)] hover:bg-[hsl(var(--background-primary-hover))] transition-colors duration-[var(--duration-base)]"
               >
-                <p className="text-[14px] font-semibold text-[rgb(20,20,20)] mb-1.5 font-mono">
+                <p className="text-[14px] font-semibold text-[hsl(var(--text-primary))] mb-1.5 font-mono">
                   {item.say}
                 </p>
-                <p className="text-[14px] text-[rgb(112,112,112)] leading-[1.6]">
+                <p className="text-[14px] text-[hsl(var(--text-secondary))] leading-[1.6]">
                   {item.does}
                 </p>
               </div>
@@ -119,14 +119,14 @@ export default function Home() {
 
       {/* Skills */}
       <section id="skills" className="py-20 md:py-24">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
-          <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-3">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-8">
+          <p className="text-[12px] font-medium tracking-[0.2px] text-[hsl(var(--text-secondary))] uppercase mb-3">
             14 Skills
           </p>
-          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-4">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.6px] text-[hsl(var(--text-primary))] mb-4">
             Everything you need, nothing you don't.
           </h2>
-          <p className="text-[16px] text-[rgb(112,112,112)] leading-[1.6] mb-12 max-w-[520px]">
+          <p className="text-[16px] text-[hsl(var(--text-secondary))] leading-[1.6] mb-12 max-w-[520px]">
             Each skill handles one job well. They activate from plain English.
           </p>
 
@@ -149,12 +149,12 @@ export default function Home() {
             ].map((skill) => (
               <div
                 key={skill.name}
-                className="rounded-[12px] p-5 shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] hover:bg-[rgb(245,245,245)] transition-colors duration-200"
+                className="rounded-[var(--radius-md)] p-5 shadow-[var(--shadow-image-inset)] hover:bg-[hsl(var(--background-primary-hover))] transition-colors duration-[var(--duration-base)]"
               >
-                <p className="text-[12px] font-mono font-semibold text-[rgb(20,20,20)] mb-2">
+                <p className="text-[12px] font-mono font-semibold text-[hsl(var(--text-primary))] mb-2">
                   {skill.name}
                 </p>
-                <p className="text-[14px] text-[rgb(112,112,112)] leading-[1.5]">
+                <p className="text-[14px] text-[hsl(var(--text-secondary))] leading-[1.5]">
                   {skill.desc}
                 </p>
               </div>
@@ -165,14 +165,14 @@ export default function Home() {
 
       {/* Agents */}
       <section id="agents" className="py-20 md:py-24">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
-          <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-3">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-8">
+          <p className="text-[12px] font-medium tracking-[0.2px] text-[hsl(var(--text-secondary))] uppercase mb-3">
             4 Agents
           </p>
-          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-4">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.6px] text-[hsl(var(--text-primary))] mb-4">
             Each agent has a clear role.
           </h2>
-          <p className="text-[16px] text-[rgb(112,112,112)] leading-[1.6] mb-12 max-w-[520px]">
+          <p className="text-[16px] text-[hsl(var(--text-secondary))] leading-[1.6] mb-12 max-w-[520px]">
             Talk naturally and the right one activates. Or call them by name when you want a specific mode.
           </p>
 
@@ -180,7 +180,7 @@ export default function Home() {
             {[
               {
                 name: "Assistant",
-                trigger: "Default -- just talk",
+                trigger: "Default (just talk)",
                 desc: "Builds UI, connects backends, fixes issues. Your primary partner.",
               },
               {
@@ -201,15 +201,15 @@ export default function Home() {
             ].map((agent) => (
               <div
                 key={agent.name}
-                className="rounded-[12px] p-6 shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] hover:bg-[rgb(245,245,245)] transition-colors duration-200"
+                className="rounded-[var(--radius-md)] p-6 shadow-[var(--shadow-image-inset)] hover:bg-[hsl(var(--background-primary-hover))] transition-colors duration-[var(--duration-base)]"
               >
-                <h3 className="text-[20px] font-semibold text-[rgb(20,20,20)] mb-1">
+                <h3 className="text-[20px] font-semibold text-[hsl(var(--text-primary))] mb-1">
                   {agent.name}
                 </h3>
-                <p className="text-[12px] font-mono text-[rgb(112,112,112)] mb-3">
+                <p className="text-[12px] font-mono text-[hsl(var(--text-secondary))] mb-3">
                   {agent.trigger}
                 </p>
-                <p className="text-[14px] text-[rgb(112,112,112)] leading-[1.6]">
+                <p className="text-[14px] text-[hsl(var(--text-secondary))] leading-[1.6]">
                   {agent.desc}
                 </p>
               </div>
@@ -220,14 +220,14 @@ export default function Home() {
 
       {/* DESIGN.md section */}
       <section id="demo" className="py-20 md:py-24">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
-          <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-3">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-8">
+          <p className="text-[12px] font-medium tracking-[0.2px] text-[hsl(var(--text-secondary))] uppercase mb-3">
             Try it now
           </p>
-          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-4">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.6px] text-[hsl(var(--text-primary))] mb-4">
             Extract any website's design tokens.
           </h2>
-          <p className="text-[16px] text-[rgb(112,112,112)] leading-[1.6] mb-10 max-w-[520px]">
+          <p className="text-[16px] text-[hsl(var(--text-secondary))] leading-[1.6] mb-10 max-w-[520px]">
             Paste a URL below. We launch a headless browser, scan computed styles on every element, and generate a downloadable DESIGN.md.
           </p>
 
@@ -237,11 +237,11 @@ export default function Home() {
 
       {/* Platforms */}
       <section className="py-20 md:py-24">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8">
-          <p className="text-[12px] font-medium tracking-[0.06em] text-[rgb(112,112,112)] uppercase mb-3">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-8">
+          <p className="text-[12px] font-medium tracking-[0.2px] text-[hsl(var(--text-secondary))] uppercase mb-3">
             3 Platforms
           </p>
-          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-12">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.6px] text-[hsl(var(--text-primary))] mb-12">
             Web, mobile, or Figma plugins.
           </h2>
 
@@ -265,15 +265,15 @@ export default function Home() {
             ].map((platform) => (
               <div
                 key={platform.name}
-                className="rounded-[12px] p-6 shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] hover:bg-[rgb(245,245,245)] transition-colors duration-200"
+                className="rounded-[var(--radius-md)] p-6 shadow-[var(--shadow-image-inset)] hover:bg-[hsl(var(--background-primary-hover))] transition-colors duration-[var(--duration-base)]"
               >
-                <h3 className="text-[20px] font-semibold text-[rgb(20,20,20)] mb-1">
+                <h3 className="text-[20px] font-semibold text-[hsl(var(--text-primary))] mb-1">
                   {platform.name}
                 </h3>
-                <p className="text-[12px] font-mono text-[rgb(173,173,173)] mb-3">
+                <p className="text-[12px] font-mono text-[hsl(var(--text-tertiary))] mb-3">
                   {platform.stack}
                 </p>
-                <p className="text-[14px] text-[rgb(112,112,112)] leading-[1.6]">
+                <p className="text-[14px] text-[hsl(var(--text-secondary))] leading-[1.6]">
                   {platform.desc}
                 </p>
               </div>
@@ -284,26 +284,26 @@ export default function Home() {
 
       {/* CTA */}
       <section className="py-20 md:py-24">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 text-center">
-          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.01em] text-[rgb(20,20,20)] mb-4">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-8 text-center">
+          <h2 className="text-[24px] md:text-[32px] font-semibold tracking-[-0.6px] text-[hsl(var(--text-primary))] mb-4">
             Start building in 30 seconds.
           </h2>
-          <p className="text-[16px] text-[rgb(112,112,112)] leading-[1.6] mb-10 max-w-[480px] mx-auto">
+          <p className="text-[16px] text-[hsl(var(--text-secondary))] leading-[1.6] mb-10 max-w-[480px] mx-auto">
             One command installs everything. It asks which AI tool you use and sets up only what you need.
           </p>
-          <div className="inline-flex items-center px-6 py-3.5 rounded-full bg-[rgb(245,245,245)] text-[16px] font-mono text-[rgb(20,20,20)] mb-6">
+          <div className="inline-flex items-center px-6 py-3.5 rounded-full bg-[hsl(var(--background-secondary))] text-[16px] font-mono text-[hsl(var(--text-primary))] mb-6">
             npx vibe-ship-it init
           </div>
           <div className="flex justify-center gap-3 mt-6">
             <a
               href="https://github.com/sso-ss/vibe-ship-it"
-              className="inline-flex items-center px-6 py-3 rounded-full bg-[rgb(20,20,20)] text-white text-[14px] font-semibold hover:bg-[rgb(50,50,50)] transition-colors duration-200"
+              className="inline-flex items-center px-6 py-3 rounded-full bg-[hsl(var(--background-inverse))] text-[hsl(var(--text-inverse))] text-[14px] font-semibold hover:bg-[hsl(var(--background-inverse-hover))] transition-colors duration-[var(--duration-base)]"
             >
               View on GitHub
             </a>
             <a
               href="https://www.npmjs.com/package/vibe-ship-it"
-              className="inline-flex items-center px-6 py-3 rounded-full shadow-[inset_0_0_0_1px_rgba(64,64,64,0.16)] text-[rgb(20,20,20)] text-[14px] font-semibold hover:bg-[rgb(245,245,245)] transition-colors duration-200"
+              className="inline-flex items-center px-6 py-3 rounded-full shadow-[var(--shadow-image-inset)] text-[hsl(var(--text-primary))] text-[14px] font-semibold hover:bg-[hsl(var(--background-primary-hover))] transition-colors duration-[var(--duration-base)]"
             >
               npm package
             </a>
@@ -312,16 +312,16 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 border-t border-[rgb(237,237,237)]">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-[12px] text-[rgb(173,173,173)]">
+      <footer className="py-10 border-t border-[hsl(var(--border-divider))]">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <span className="text-[12px] text-[hsl(var(--text-tertiary))]">
             MIT License. Built for designers who want to ship.
           </span>
           <div className="flex gap-6">
-            <a href="https://github.com/sso-ss/vibe-ship-it" className="text-[12px] text-[rgb(173,173,173)] hover:text-[rgb(20,20,20)] transition-colors">
+            <a href="https://github.com/sso-ss/vibe-ship-it" className="text-[12px] text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text-primary))] transition-colors duration-[var(--duration-base)]">
               GitHub
             </a>
-            <a href="https://www.npmjs.com/package/vibe-ship-it" className="text-[12px] text-[rgb(173,173,173)] hover:text-[rgb(20,20,20)] transition-colors">
+            <a href="https://www.npmjs.com/package/vibe-ship-it" className="text-[12px] text-[hsl(var(--text-tertiary))] hover:text-[hsl(var(--text-primary))] transition-colors duration-[var(--duration-base)]">
               npm
             </a>
           </div>

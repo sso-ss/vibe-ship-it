@@ -470,9 +470,83 @@ function generateDesignMD(tokens: ExtractedTokens): string {
   return md;
 }
 
+function generateTailwindConfig(tokens: ExtractedTokens): string {
+  const colors: Record<string, string> = {};
+  for (const cr of tokens.colorRoles) {
+    if (cr.role) {
+      const key = cr.role.toLowerCase().replace(/\s+/g, '-');
+      colors[key] = cr.value;
+    }
+  }
+
+  const radii: Record<string, string> = {};
+  for (const r of tokens.radii) {
+    if (r === '9999px') radii['full'] = r;
+    else if (parseFloat(r) <= 6) radii['sm'] = r;
+    else if (parseFloat(r) <= 12) radii['md'] = r;
+    else if (parseFloat(r) <= 24) radii['lg'] = r;
+    else radii['xl'] = r;
+  }
+
+  const shadows: Record<string, string> = {};
+  tokens.shadows.forEach((s, i) => {
+    if (s.includes('inset')) shadows['ring'] = s;
+    else shadows[`level-${i + 1}`] = s;
+  });
+
+  const weights: Record<string, string> = {};
+  for (const w of tokens.fontWeights) {
+    if (w === '400') weights['normal'] = w;
+    else if (w === '500') weights['medium'] = w;
+    else if (w === '600') weights['semibold'] = w;
+    else if (w === '700') weights['bold'] = w;
+    else weights[`w-${w}`] = w;
+  }
+
+  let config = `// Auto-generated from DESIGN.md tokens\n`;
+  config += `// Add to tailwind.config.ts under theme.extend\n\n`;
+  config += `export const designTokens = {\n`;
+  config += `  colors: ${JSON.stringify(colors, null, 4)},\n`;
+  config += `  borderRadius: ${JSON.stringify(radii, null, 4)},\n`;
+  config += `  boxShadow: ${JSON.stringify(shadows, null, 4)},\n`;
+  config += `  fontWeight: ${JSON.stringify(weights, null, 4)},\n`;
+  config += `};\n`;
+
+  return config;
+}
+
+function generateCSSVariables(tokens: ExtractedTokens): string {
+  let css = `/* Auto-generated from DESIGN.md tokens */\n`;
+  css += `:root {\n`;
+
+  for (const cr of tokens.colorRoles) {
+    if (cr.role) {
+      const key = cr.role.toLowerCase().replace(/\s+/g, '-');
+      css += `  --${key}: ${cr.value};\n`;
+    }
+  }
+
+  tokens.radii.forEach((r, i) => {
+    if (r === '9999px') css += `  --radius-full: ${r};\n`;
+    else css += `  --radius-${i + 1}: ${r};\n`;
+  });
+
+  tokens.shadows.forEach((s, i) => {
+    if (s.includes('inset')) css += `  --shadow-ring: ${s};\n`;
+    else css += `  --shadow-${i + 1}: ${s};\n`;
+  });
+
+  if (tokens.fonts.length > 0) {
+    css += `  --font-primary: ${tokens.fonts[0]};\n`;
+  }
+
+  css += `}\n`;
+  return css;
+}
+
 export async function extractDesignTokens(
   url: string
-): Promise<{ tokens: ExtractedTokens; markdown: string } | { error: string }> {
+): Promise<{ tokens: ExtractedTokens; markdown: string; tailwindConfig: string; cssVariables: string; pageStructure: string[] } | { error: string }> {
   try {
     // Validate URL
     let parsedURL: URL;
@@ -636,6 +710,36 @@ export async function extractDesignTokens(
           colorArr.push({ value: val, sources: Array.from(srcs) });
         });
 
+        // Detect page structure
+        const structure: string[] = [];
+        const nav = document.querySelector("nav, header");
+        if (nav) {
+          const links = nav.querySelectorAll("a").length;
+          structure.push("Nav: " + (nav.tagName === "NAV" ? "Semantic nav" : "Header") + ", " + links + " links");
+        }
+        const sections = document.querySelectorAll("main > section, main > div, body > section");
+        sections.forEach((sec, i) => {
+          if (i > 10) return;
+          const headings = sec.querySelectorAll("h1, h2, h3");
+          const heading = headings.length > 0 ? headings[0].textContent?.trim().slice(0, 50) : "";
+          const grids = sec.querySelectorAll('[style*="grid"], [class*="grid"]');
+          const flexes = sec.querySelectorAll('[style*="flex"], [class*="flex"]');
+          const images = sec.querySelectorAll("img").length;
+          const cards = sec.querySelectorAll('[class*="card"], [class*="Card"]').length;
+          let desc = "Section";
+          if (heading) desc += ': "' + heading + '"';
+          if (grids.length > 0) desc += ", grid layout";
+          if (flexes.length > 0) desc += ", flex layout";
+          if (images > 2) desc += ", " + images + " images";
+          if (cards > 0) desc += ", " + cards + " cards";
+          structure.push(desc);
+        });
+        const footer = document.querySelector("footer");
+        if (footer) {
+          const links = footer.querySelectorAll("a").length;
+          structure.push("Footer: " + links + " links");
+        }
+
         return {
           title: document.title,
           themeColor,
@@ -650,6 +754,7 @@ export async function extractDesignTokens(
           shadows: Array.from(shadows).slice(0, 10),
           spacing: Array.from(spacing).slice(0, 20),
           cssVars,
+          structure,
         };
       });
 
@@ -687,7 +792,10 @@ export async function extractDesignTokens(
       };
 
       const markdown = generateDesignMD(tokens);
-      return { tokens, markdown };
+      const tailwindConfig = generateTailwindConfig(tokens);
+      const cssVariables = generateCSSVariables(tokens);
+      const pageStructure = (extracted.structure as string[]) || [];
+      return { tokens, markdown, tailwindConfig, cssVariables, pageStructure };
     } catch (e) {
       await browser.close();
       return {

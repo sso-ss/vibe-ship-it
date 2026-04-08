@@ -1,6 +1,6 @@
 ---
 name: build-page
-description: "Builds UI from descriptions, screenshots, or Figma designs. Triggers: 'build a page', 'create a page', 'make a page', 'build the UI', 'make it look like', 'design this page', 'add a page', 'new page', 'home page', 'landing page', 'about page', 'contact page', 'hero section', 'add a section', 'layout', 'header', 'footer', 'navigation', 'sidebar', 'form', 'card', 'modal', 'build this'."
+description: "Builds UI from descriptions, screenshots, or Figma designs. Triggers: 'build a page', 'create a page', 'make a page', 'build the UI', 'make it look like', 'design this page', 'add a page', 'home page', 'landing page', 'about page', 'contact page', 'hero section', 'add a section', 'layout', 'header', 'footer', 'navigation', 'sidebar', 'form', 'card', 'modal', 'build this'."
 ---
 
 # Build Page

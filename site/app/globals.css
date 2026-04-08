@@ -1,18 +1,85 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #ffffff;
-  --surface: rgb(245, 245, 245);
-  --text-primary: rgb(20, 20, 20);
-  --text-secondary: rgb(112, 112, 112);
-  --text-tertiary: rgb(173, 173, 173);
-  --border: rgb(237, 237, 237);
-  --ring: rgba(64, 64, 64, 0.16);
-  --ring-subtle: rgba(64, 64, 64, 0.08);
+  /* Neutral scale */
+  --neutral-0: 0 0% 100%;
+  --neutral-5: 0 0% 96%;
+  --neutral-10: 0 0% 93%;
+  --neutral-20: 0 0% 86%;
+  --neutral-30: 0 0% 76%;
+  --neutral-40: 0 0% 68%;
+  --neutral-50: 0 0% 53%;
+  --neutral-60: 0 0% 44%;
+  --neutral-70: 0 0% 36%;
+  --neutral-80: 0 0% 25%;
+  --neutral-90: 0 0% 15%;
+  --neutral-95: 0 0% 12%;
+  --neutral-100: 0 0% 8%;
+
+  /* Opacity scale */
+  --opacity-black-4: 0 0% 25%/4%;
+  --opacity-black-6: 0 0% 25%/6%;
+  --opacity-black-8: 0 0% 25%/8%;
+  --opacity-black-10: 0 0% 25%/10%;
+  --opacity-black-12: 0 0% 25%/12%;
+  --opacity-black-16: 0 0% 25%/16%;
+  --opacity-black-24: 0 0% 25%/24%;
+
+  /* Semantic tokens - Light */
+  --background-primary: var(--neutral-0);
+  --background-secondary: var(--opacity-black-6);
+  --background-tertiary: var(--opacity-black-8);
+  --background-inverse: var(--neutral-100);
+  --background-inverse-hover: var(--neutral-90);
+  --background-primary-hover: var(--opacity-black-6);
+
+  --text-primary: var(--neutral-100);
+  --text-secondary: var(--neutral-60);
+  --text-tertiary: var(--neutral-40);
+  --text-inverse: var(--neutral-0);
+
+  --border-divider: var(--neutral-10);
+  --border-secondary: var(--opacity-black-8);
+  --border-focus: var(--neutral-100);
+
+  /* Brand */
+  --blue-70: 216 100% 50%;
+
+  /* Status */
+  --green-60: 103 79% 35%;
+  --yellow-60: 36 100% 33%;
+  --red-60: 18 100% 44%;
+
+  /* Shadows */
+  --shadow: 0 12px 80px hsl(0 0% 0%/16%);
+  --shadow-image-inset: inset 0 0 0 0.5px hsl(0 0% 0%/10%);
+  --shadow-dropdown: 0 8px 24px hsl(0 0% 0%/12%);
+
+  /* Radii */
+  --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 24px;
-  --radius-xl: 28px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 28px;
+  --radius-full: 9999px;
+
+  /* Layout */
+  --max-content-width: 1280px;
+  --section-gap: 64px;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 500ms;
+  --easing-smooth: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --section-gap: 80px;
+  }
 }
 
 html {
@@ -21,7 +88,7 @@ html {
 }
 
 body {
-  color: var(--text-primary);
-  background: var(--bg);
-  font-weight: 400;
+  color: hsl(var(--text-primary));
+  background: hsl(var(--background-primary));
+  font-weight: 440;
 }

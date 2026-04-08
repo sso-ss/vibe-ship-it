@@ -1,6 +1,6 @@
 ---
 name: what-am-i-building
-description: "Figures out what you're building and sets up the project. Triggers: 'I want to build', 'I want to make', 'new project', 'start something', 'I have an idea', 'help me build', 'create a', 'build me a', 'I need a website', 'I need an app', 'make me a'."
+description: "Figures out what you're building and sets up the project. Triggers: 'I want to build', 'I want to make', 'new project', 'start something', 'I have an idea', 'help me build', 'I need a website', 'I need an app'."
 ---
 
 # What Am I Building

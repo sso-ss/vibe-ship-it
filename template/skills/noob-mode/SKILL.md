@@ -1,6 +1,6 @@
 ---
 name: noob-mode
-description: "Plain-English translation layer. Explains technical things in simple language. Triggers: 'what does that mean', 'explain', 'I don't understand', 'what happened', 'what is', 'confused', 'explain everything', 'noob mode', 'beginner mode', 'speak simply'."
+description: "Plain-English translation layer. Explains technical things in simple language. Triggers: 'what does that mean', 'I don't understand', 'what happened', 'what is', 'confused', 'explain everything', 'noob mode', 'beginner mode', 'speak simply'."
 ---
 
 # Noob Mode

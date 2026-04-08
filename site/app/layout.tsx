@@ -6,10 +6,11 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
-  title: "vibe-ship-it -- AI skills for designers who code",
+  title: "vibe-ship-it: AI skills for designers who code",
   description:
     "14 skills + 4 agents that help designers vibe-code their ideas to life. Works with VS Code Copilot, Claude Code, and OpenAI Codex.",
 };
@@ -21,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.variable} ${inter.className} antialiased`}>
         {children}
         <Analytics />
       </body>
