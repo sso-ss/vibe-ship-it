@@ -149,6 +149,63 @@ From the raw tokens, identify:
 - **Shadow philosophy**: Flat? Subtle elevation? Heavy depth? Shadow-as-border?
 - **Shape language**: Map each component type to its specific radius. Are buttons and inputs the same? Are cards larger? Any use of asymmetric radii (e.g. `8px 8px 0 0`)? Does the radius scale follow a pattern (e.g. 4/8/12/16)?
 
+#### Font Classification
+
+Separate extracted fonts into three buckets:
+- **Body font**: the font used on most text. Look for names containing "Text", "Body", or "Sans" (without "Display").
+- **Heading font**: used for titles. Look for names containing "Display", "Headline", "Title".
+- **Mono font**: for code/data. Names containing "Mono", "Code", "Consol", "Courier".
+
+**Filter out icon fonts** before assigning roles. Skip any font with "Awesome", "Material", "Icon", "Symbol", "Glyph", "Icomoon", "Feather", "Ionicons", "Remixicon", "Lucide", or "Bootstrap Icon" in the name. These are icon fonts, not text fonts.
+
+If the site uses only one text font for everything, note it as both body and heading. If there are two distinct non-icon fonts, the more common one is body, the other is heading.
+
+#### Accent Color Detection
+
+The accent color must be intentional, not a stray focus ring or outline:
+- **Saturation > 40%** required. Low-saturation colors are grays, not brand colors.
+- **Source must be text or background**, not border. Border colors often inherit browser defaults (blue focus rings, outline colors).
+- **Monochrome sites** (Uber, Nike) have no accent. The primary button is dark/black, not colored. Don't force an accent when there isn't one.
+- **Check CSS variables**: `--accent`, `--brand`, `--color-primary`, `--color-button-primary` often hold the brand color.
+
+#### Button Detection
+
+Sites use different button styles. Detect in this priority:
+1. **Chromatic buttons**: colored background (saturation > 40%). This is the accent/CTA.
+2. **Dark/black buttons**: common on monochrome sites (Nike, Puma, Uber, Vercel). Brightness < 60.
+3. **Any visible button**: non-transparent, non-white background.
+
+**Skip utility buttons** when looking for the primary CTA: "Skip to content", "Search", "Close", "Menu", "My account", "next/prev".
+
+#### Card Style Detection
+
+Cards come in distinct patterns. Detect which one the site uses:
+- **Shadow cards**: no border, `box-shadow` at rest. Common on SaaS sites (Stripe, Linear).
+- **Bordered cards**: `border` visible, no shadow at rest. Shadow appears on hover. Common on e-commerce (Airbnb).
+- **No-container cards**: just a rounded image with text below, no wrapping element. No border, no shadow, no background. Common on media/marketplace sites (Airbnb listings, Mobbin).
+- **Inset cards**: `box-shadow: inset` as border technique (Vercel).
+
+Card radius cap: anything over 32px is likely a search bar or hero element, not a card. Default to 12px.
+
+#### Dropdown Detection
+
+Nav dropdown menus are the best source for dropdown styling because every site has one and they're styled consistently. Detection priority:
+1. **Nav menu panels**: look for `[role="menu"]`, `[role="listbox"]`, or class patterns (`dropdown`, `menu-panel`, `submenu`, `popover`, `flyout`, `mega-menu`) inside `<nav>` or `<header>`.
+2. **Hidden panels**: most dropdowns are `display:none` until hover. Their styles are still readable via `getComputedStyle()`.
+3. **Page-wide fallback**: search the whole page for the same selectors.
+
+Dropdown radius cap: max 24px. Dropdowns are tight UI, never pill-shaped.
+
+#### Pill Detection
+
+Only values >= 999px count as pills, NOT percentage values like `50%` or `100%`. The value `50%` creates circles (avatars, icons), not pills. The value `border-radius: 9999px` or `border-radius: 1600px` creates pills.
+
+When a site uses pills AND no explicit button radius is detected, assume buttons are pills too.
+
+#### Bot Protection
+
+If the headless browser lands on a challenge page instead of the real site, detect it by checking the page title or first heading for phrases like: "just a moment", "checking your browser", "security check", "access denied", "attention required", "what happened", "please verify", "captcha". Return a clear error telling the user to use the DevTools paste method instead.
+
 ### Step 5: Interpret the Atmosphere
 
 Read the design decisions as a whole. What does this site feel like?
