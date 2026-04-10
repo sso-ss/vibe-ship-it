@@ -33,7 +33,7 @@ Works with **VS Code Copilot**, **Claude Code**, **Cursor**, and **OpenAI Codex*
 | **build-page** | Builds UI from descriptions or screenshots | "Build a landing page with..." |
 | **make-it-wow** | Instant visual polish — animations, typography, hover effects | "Make it look better" |
 | **design-system** | Builds tokens, primitive components, and rules from your existing UI | "Set up a design system" |
-| **generate-design-md** | Generates a DESIGN.md from any website URL — captures colors, type, spacing, components | "Make it look like linear.app" |
+| **generate-design-md** | Generates a DESIGN.md from any website URL — captures colors, type, spacing, components, page structure | "Make it look like linear.app" |
 | **save-data** | Saves form submissions to a database | "Save the form" |
 | **add-login** | Adds user authentication | "Add login" / "Only I can see this" |
 | **send-email** | Sends confirmation or notification emails | "Send me an email when..." |
@@ -169,14 +169,17 @@ The `generate-design-md` skill fetches a website's HTML and all linked CSS files
 
 **What it extracts:**
 - Full color system with HSL tokens and semantic roles (background, text, border, status)
-- Typography scale with font families, sizes, weights, line heights, and letter spacing
+- Typography scale with body/heading font separation, icon font filtering, weight strategy
 - Spacing grid, container widths, and section gaps
-- Border radius scale, shadow system (including inset shadow-as-border techniques)
+- Component-aware border radius (tracks per button, card, input, modal, badge, dropdown)
+- Shadow system including inset shadow-as-border techniques
 - Motion tokens: durations, easing curves, backdrop blur values
-- Component patterns: buttons, cards, inputs, navigation
+- Component patterns: buttons (chromatic, dark/monochrome, ghost), cards (shadow, bordered, no-container, inset), inputs, dropdowns, navigation
+- Page structure: header, every section in order (heading, body, CTA, layout, card pattern), footer
 - State treatments: hover, focus, active, disabled, loading, error
 - Dark mode mappings when present
 - Responsive breakpoints and what changes at each
+- Bot protection detection with DevTools fallback
 
 **Confidence tracking:** Each token is marked as `extracted` (found in CSS), `inferred` (deduced from patterns), or `known` (recognized from training data). If CSS files are blocked, a warning is added.
 
@@ -195,7 +198,7 @@ The `generate-design-md` skill fetches a website's HTML and all linked CSS files
 │                      ▼       ▼                                  │
 │               ┌──────────────────┐                              │
 │               │    DESIGN.md     │                              │
-│               │  8-section       │                              │
+│               │  9-section       │                              │
 │               │  token system    │                              │
 │               │  with HSL vars   │                              │
 │               └────────┬─────────┘                              │
@@ -218,18 +221,19 @@ The `generate-design-md` skill fetches a website's HTML and all linked CSS files
 **DESIGN.md sections:**
 1. Identity: visual personality in one line + signature techniques
 2. Color: full palette with semantic roles, neutral scale, dark mode
-3. Typography: fonts, scale, weight strategy
-4. Spacing & Layout: base unit, container, border radius
+3. Typography: body/heading fonts, scale, weight strategy
+4. Spacing & Layout: base unit, container, component-aware border radius
 5. Depth & Motion: elevation system, transitions, backdrop blur
-6. Components: buttons, cards, inputs, navigation, signature patterns
-7. States: hover, focus, active, disabled, loading, empty, error
-8. Rules: specific do's and don'ts with actual values
+6. Page Structure: header, full section-by-section page flow, footer, layout patterns
+7. Components: buttons, cards, inputs, dropdowns, navigation, signature patterns
+8. States: hover, focus, active, disabled, loading, empty, error
+9. Rules: specific do's and don'ts with actual values
 
 Rule 0 enforces this: every agent silently checks for `DESIGN.md` before any work. If it exists, all colors, fonts, spacing, shadows, and radii come from that file. No inventing new values.
 
 ## Try it live
 
-The [live site](https://vibe-ship-it.vercel.app) includes a design token extractor. Paste any URL and get a downloadable DESIGN.md with the full 8-section structure, Tailwind config, and CSS variables.
+The [live site](https://vibe-ship-it.vercel.app) includes a design token extractor. Paste any URL and get a downloadable DESIGN.md with the full 9-section structure, component preview, Tailwind config, and CSS variables.
 
 ## Design principles
 
