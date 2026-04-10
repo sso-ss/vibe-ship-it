@@ -1,7 +1,6 @@
 # DESIGN.md: vibe-ship-it
 
 <!-- extraction-meta
-source: https://mobbin.com/ (visual reference)
 date: 2026-04-09
 confidence: { extracted: 95%, inferred: 5% }
 -->
@@ -278,4 +277,3 @@ absolute | bg: rgba(237,237,237,0.72) + blur | h: 60px
 - Display scales from 80px to 40px on mobile
 
 ---
-Source: https://mobbin.com/ (visual reference)
