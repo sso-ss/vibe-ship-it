@@ -1,0 +1,9 @@
+---
+description: Full pre-deploy checklist. Runs automatically before deployment. Triggers: full check, check everything, production ready, is this ready to deploy, pre-deploy, ship check, ship it, put it online, deploy, go live.
+globs: 
+alwaysApply: false
+---
+
+# Before You Ship
+
+Read and follow the full instructions in `skills/before-you-ship/SKILL.md`.

@@ -1,0 +1,9 @@
+---
+description: Generates a DESIGN.md from any website URL. Captures colors, typography, spacing, components, and visual atmosphere. Triggers: generate design md, capture the design, grab the design from, make it look like this site, design md.
+globs: 
+alwaysApply: false
+---
+
+# Generate Design MD
+
+Read and follow the full instructions in `skills/generate-design-md/SKILL.md`.

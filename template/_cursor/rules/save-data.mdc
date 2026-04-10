@@ -1,0 +1,9 @@
+---
+description: Saves form data to a database. Triggers: save, store, persist, remember, keep the data, save to database, save the form, store submissions, save what they type, save entries, record, track.
+globs: 
+alwaysApply: false
+---
+
+# Save Data
+
+Read and follow the full instructions in `skills/save-data/SKILL.md`.

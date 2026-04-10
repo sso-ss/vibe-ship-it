@@ -1,0 +1,9 @@
+---
+description: Handles file and image uploads. Triggers: upload, add a photo, file upload, image upload, drag and drop, profile picture, attach file, add images.
+globs: 
+alwaysApply: false
+---
+
+# Upload File
+
+Read and follow the full instructions in `skills/upload-file/SKILL.md`.

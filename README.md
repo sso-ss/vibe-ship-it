@@ -6,7 +6,7 @@
 
 A set of AI agents and skills that help designers vibe-code their ideas to life, without learning programming.
 
-Works with **VS Code Copilot**, **Claude Code**, and **OpenAI Codex**.
+Works with **VS Code Copilot**, **Claude Code**, **Cursor**, and **OpenAI Codex**.
 
 - Live site: https://vibe-ship-it.vercel.app
 - GitHub: https://github.com/sso-ss/vibe-ship-it
@@ -56,7 +56,7 @@ Works with **VS Code Copilot**, **Claude Code**, and **OpenAI Codex**.
 npx vibe-ship-it init
 ```
 
-It'll ask which AI tool you use (VS Code Copilot, Claude Code, or OpenAI Codex) and install only what you need.
+It'll ask which AI tool you use (VS Code Copilot, Claude Code, Cursor, or OpenAI Codex) and install only what you need.
 
 To remove:
 
@@ -80,6 +80,7 @@ If you don't want skill files in your repo, add to `.gitignore`:
 ```
 .github/agents/
 .github/copilot-instructions.md
+.cursor/rules/
 skills/
 .claude/
 CLAUDE.md
@@ -134,6 +135,12 @@ AGENTS.md                               ← OpenAI Codex persona (installed via 
   stuck.md                              ← /stuck
   save.md                               ← /save
   explain.md                            ← /explain
+
+.cursor/rules/                           ← Cursor rules (auto-attached by description)
+  main.mdc                              ← Core persona (always active)
+  build-page.mdc                        ← Triggered by UI building requests
+  save-data.mdc                         ← Triggered by data persistence requests
+  ...                                   ← 17 rule files total
 
 skills/
   what-am-i-building/                   ← Project setup + routing

@@ -32,6 +32,7 @@
   --background-inverse: var(--neutral-100);
   --background-inverse-hover: var(--neutral-90);
   --background-primary-hover: var(--opacity-black-6);
+  --background-modal: var(--neutral-0);
 
   --text-primary: var(--neutral-100);
   --text-secondary: var(--neutral-60);
@@ -54,6 +55,10 @@
   --shadow: 0 12px 80px hsl(0 0% 0%/16%);
   --shadow-image-inset: inset 0 0 0 0.5px hsl(0 0% 0%/10%);
   --shadow-dropdown: 0 8px 24px hsl(0 0% 0%/12%);
+
+  /* Card */
+  --card-bg: rgba(64, 64, 64, 0.06);
+  --header-bg: rgba(237, 237, 237, 0.72);
 
   /* Radii */
   --radius-xs: 4px;

@@ -1,0 +1,9 @@
+---
+description: Detects frustration and fixes problems fast. Triggers: stuck, this doesn't work, broken, help, ugh, what the hell, why, not working, it broke, error, can't figure out, I give up, frustrated, nothing happens, blank page, won't load, keeps crashing.
+globs: 
+alwaysApply: false
+---
+
+# Unstuck
+
+Read and follow the full instructions in `skills/unstuck/SKILL.md`.

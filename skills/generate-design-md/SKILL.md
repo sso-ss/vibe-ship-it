@@ -15,7 +15,7 @@ Takes a website URL and produces a complete DESIGN.md file -- a plain-text desig
 4. Analyze the visual atmosphere and design philosophy
 5. Detect the page structure (sections, grids, layout patterns)
 6. Generate three files:
-   - `DESIGN.md` -- the complete design system (8 sections)
+   - `DESIGN.md` -- the complete design system (9 sections)
    - Tailwind config extension -- tokens mapped to utility classes
    - CSS variables -- tokens as custom properties in globals.css
 7. Drop them in the project
@@ -72,11 +72,55 @@ Pull these from ALL collected sources (external CSS + inline styles + style bloc
 | Fonts | `font-family`, `@font-face`, Google Fonts URL params (`?family=Inter:wght@300;400;700`), Typekit kit IDs |
 | Type scale | `font-size`, `font-weight`, `line-height`, `letter-spacing` -- collect ALL unique values and sort |
 | Spacing | `padding`, `margin`, `gap` -- collect unique values, find the base unit (most common divisor) |
-| Radii | `border-radius` -- collect all unique values across components |
+| Radii | `border-radius` -- collect per-component (see Radius Precision below) |
 | Shadows | `box-shadow` -- capture full declarations including multi-layer stacks |
 | Borders | `border` shorthand and individual properties |
 | Transitions | `transition`, `animation`, `@keyframes` declarations |
 | Breakpoints | `@media` queries -- extract all width breakpoints |
+
+#### Radius Precision
+
+Border-radius is the token most often wrong because CSS text alone is ambiguous: variable references (`var(--radius)`), utility classes (`rounded-xl`), and shorthand (`8px 8px 0 0`) all hide the actual computed value. Use these techniques in order of reliability:
+
+**1. Resolve CSS variables.** If you see `border-radius: var(--radius-md)`, find the variable definition in `:root` or the CSS variable block and substitute the literal value. Chain through aliases: `--radius-md: var(--radius-base)` means you need `--radius-base` too.
+
+**2. Map utility classes.** If the HTML uses Tailwind or a utility-first framework, map class names to known values:
+| Class | Value |
+|-------|-------|
+| `rounded-none` | 0px |
+| `rounded-sm` | 2px (0.125rem) |
+| `rounded` | 4px (0.25rem) |
+| `rounded-md` | 6px (0.375rem) |
+| `rounded-lg` | 8px (0.5rem) |
+| `rounded-xl` | 12px (0.75rem) |
+| `rounded-2xl` | 16px (1rem) |
+| `rounded-3xl` | 24px (1.5rem) |
+| `rounded-full` | 9999px |
+
+If the site uses a custom Tailwind config the values may differ. Check CSS custom properties for overrides like `--radius: 0.625rem` (Shadcn/ui pattern).
+
+**3. Group by component.** Different components use different radii. Always record WHICH component a radius belongs to:
+- Buttons: typically `radius-sm` or `radius-md`
+- Cards / panels: typically `radius-md` or `radius-lg`
+- Inputs: typically matches button radius
+- Modals / sheets: typically `radius-lg` or `radius-xl`
+- Badges / pills: often `radius-full` (9999px)
+- Avatars: `radius-full` for circles, `radius-md` for rounded squares
+- Dropdowns / menus: typically `radius-md`
+- Tooltips: typically `radius-sm`
+
+When two components use the same numeric value, that's an intentional design system choice. Note it. When they differ by component, that IS the radius scale.
+
+**4. DevTools precision pass (optional).** If the fetched CSS is heavily variable-based, JS-rendered, or the radius values look ambiguous, ask the designer to run the DevTools extractor script in their browser:
+1. Open the target site in Chrome/Safari/Firefox
+2. Open DevTools console (right-click > Inspect > Console)
+3. Paste the extractor script (available at the project's `public/extract.js`)
+4. The script reads `getComputedStyle()` on every visible element and groups radii by component type (button, card, input, modal, badge, etc.)
+5. Result is copied to clipboard as JSON
+
+The `radiusByComponent` object in the script output gives the exact computed radius for each component type, with occurrence counts. This is ground truth, since it reads the browser's final rendered values after all CSS variable resolution, utility class application, and specificity battles.
+
+When the designer pastes this JSON, use `radiusByComponent` as the authoritative source for the Border Radius table in DESIGN.md. It overrides any values inferred from CSS text.
 
 ### Step 3: Verify, don't guess
 
@@ -103,7 +147,7 @@ From the raw tokens, identify:
 - **Spacing rhythm**: Is it 4px-based? 8px-based? What's the scale?
 - **Component signatures**: How do buttons look? Cards? Inputs? Navigation?
 - **Shadow philosophy**: Flat? Subtle elevation? Heavy depth? Shadow-as-border?
-- **Shape language**: Sharp corners? Rounded? Pills? Mixed?
+- **Shape language**: Map each component type to its specific radius. Are buttons and inputs the same? Are cards larger? Any use of asymmetric radii (e.g. `8px 8px 0 0`)? Does the radius scale follow a pattern (e.g. 4/8/12/16)?
 
 ### Step 5: Interpret the Atmosphere
 
@@ -118,7 +162,7 @@ Write this as a short, opinionated paragraph -- not a list of CSS values.
 
 ## Output Format
 
-The DESIGN.md follows an 8-section structure optimized for AI agents. Every section earns its place -- no redundancy, no prose padding.
+The DESIGN.md follows a 9-section structure optimized for AI agents. Every section earns its place -- no redundancy, no prose padding.
 
 ```markdown
 # DESIGN.md -- [Site Name]
@@ -199,12 +243,14 @@ priority-rule: external-css > style-blocks > inline-style > known
 - Section gap: [value]
 
 ### Border Radius
-| Token | Value | Used on |
-|-------|-------|---------|
-| `radius-sm` | [px] | [inputs, inline code] |
-| `radius-md` | [px] | [buttons, cards] |
-| `radius-lg` | [px] | [modals, hero cards] |
-| `radius-full` | [px/9999px] | [badges, pills, avatars] |
+| Token | Value | Used on | Source |
+|-------|-------|---------|--------|
+| `radius-sm` | [px] | [inputs, inline code, tooltips] | [extracted/variable-resolved/class-mapped/devtools] |
+| `radius-md` | [px] | [buttons, cards, dropdowns] | |
+| `radius-lg` | [px] | [modals, hero cards, large panels] | |
+| `radius-full` | [px/9999px] | [badges, pills, avatars] | |
+
+[Map every component to its radius token. If buttons use `radius-md` and cards also use `radius-md`, say so. If they differ, that IS the scale]
 
 ## 5. Depth & Motion
 
@@ -226,7 +272,53 @@ priority-rule: external-css > style-blocks > inline-style > known
 | `easing` | [curve] | Default easing function |
 [Note any distinctive motion patterns: staggered entrance, parallax, spring physics, scroll-triggered]
 
-## 6. Components
+## 6. Page Structure
+
+### Header
+```
+[ element placement diagram ]
+height: [value] | position: [sticky/fixed/absolute/static] | bg: [value] | [backdrop-blur if present]
+```
+
+### Page Flow
+
+The page has [N] sections in this order:
+
+**1. [Section Name]** [note if section has a tinted/dark background]
+- Heading: [word count, size from type scale, alignment]
+- Subheading/label: [position relative to heading (above/below), style (uppercase, small, etc.)]
+- Body: [sentence count, approximate word count, alignment]
+- CTA: [button count, button labels pattern, style variants used]
+- Media: [image/video/illustration placement relative to text]
+- Layout: [stacked/split/grid], [alignment], max-width: [value if constrained]
+- Card pattern: [describe what's inside vs outside the card -- e.g. "image inside, text below"]
+- Item count: [how many cards/items in this section]
+
+**2. [Section Name]**
+[Same structure. Include every section on the page.]
+
+[Continue for ALL sections...]
+
+### Footer
+```
+[bg color/style]
+[ element placement diagram ]
+[column count, link count, content summary]
+```
+
+### Layout Patterns
+- Content alignment: [centered / left-aligned / mixed -- note which sections differ]
+- Content max-width: [value for text-heavy sections like hero, CTA]
+- Grid columns: [list each grid and its column count, e.g. "features: 3-col, pricing: 3-col, testimonials: 2-col"]
+- Grid responsive behavior: [what column count becomes on mobile]
+- Card gaps: [value]
+- Section vertical padding: [value or range]
+- Section backgrounds: [which sections break from the default bg, and what they use]
+- Heading hierarchy: [which type scale role each section heading uses -- e.g. "all section headings use H1 (56px) except component preview which uses H2 (32px)"]
+
+[Detect from DOM tree -- semantic elements (`<nav>`, `<header>`, `<section>`, `<footer>`), grid/flex containers, column counts, heading hierarchy, `text-align`, `max-width` on content wrappers.]
+
+## 7. Components
 
 ### Buttons
 | Property | Primary | Secondary | Ghost |
@@ -243,16 +335,6 @@ priority-rule: external-css > style-blocks > inline-style > known
 | Hover | [specific CSS changes] | [specific CSS changes] |
 | Focus | [focus ring value] | [focus ring value] |
 
-### Cards
-| Property | Value |
-|----------|-------|
-| background | `[val]` |
-| border | `[val]` |
-| radius | `[val]` |
-| shadow | `[val]` |
-| padding | `[val]` |
-| hover | [behavior] |
-
 ### Inputs
 | Property | Value |
 |----------|-------|
@@ -263,8 +345,71 @@ priority-rule: external-css > style-blocks > inline-style > known
 | error | [styling] |
 | label | [placement and style] |
 
+### Dropdowns
+| Property | Value |
+|----------|-------|
+| background | `[val]` |
+| border | `[val]` |
+| radius | `[val]` |
+| shadow | `[val]` |
+| max-height | `[val]` |
+| item-padding | `[val]` |
+| item-hover | `[val]` |
+| item-radius | `[val]` |
+| separator | `[val]` |
+| animation | [enter/exit behavior] |
+
+### Cards
+| Property | Value |
+|----------|-------|
+| background | `[val]` |
+| border | `[val]` |
+| radius | `[val]` |
+| shadow | `[val]` |
+| padding | `[val]` |
+| hover | [behavior] |
+
 ### Navigation
 [Structure, font treatment, active indicator, sticky behavior]
+
+### Links
+| Property | Value |
+|----------|-------|
+| color | `[val]` |
+| underline | [always / hover-only / none] |
+| hover | [color change, underline, opacity] |
+| visited | `[val]` (omit if same as default) |
+
+### Badges / Tags
+| Property | Value |
+|----------|-------|
+| background | `[val]` |
+| color | `[val]` |
+| padding | `[val]` |
+| radius | `[val]` |
+| font-size | `[val]` |
+| font-weight | `[val]` |
+| variants | [list color variants if present: success, warning, danger, neutral] |
+
+### Tabs
+| Property | Value |
+|----------|-------|
+| active-indicator | [underline / background / border -- describe style] |
+| active-color | `[val]` |
+| inactive-color | `[val]` |
+| padding | `[val]` |
+| gap | `[val]` |
+
+### Modals / Dialogs
+| Property | Value |
+|----------|-------|
+| backdrop | `[val]` (e.g. rgba overlay, blur) |
+| background | `[val]` |
+| radius | `[val]` |
+| shadow | `[val]` |
+| padding | `[val]` |
+| max-width | `[val]` |
+| animation | [enter/exit behavior] |
 
 ### Icons (if identifiable)
 [Style: line/filled/duo-tone, stroke weight, size grid, corner style]
@@ -272,7 +417,7 @@ priority-rule: external-css > style-blocks > inline-style > known
 ### Signature Patterns
 [1-3 components unique to this site. The things someone would point at and say "that looks like [site name]." e.g. Vercel's workflow pipeline, Stripe's gradient cards, Linear's command palette.]
 
-## 7. States
+## 8. States
 
 | State | Treatment |
 |-------|-----------|
@@ -284,7 +429,7 @@ priority-rule: external-css > style-blocks > inline-style > known
 | Empty | [How empty states are styled -- illustration, muted text, CTA] |
 | Error | [Color, border, icon, message placement] |
 
-## 8. Rules
+## 9. Rules
 
 ### Do
 - [6-8 specific, actionable rules WITH values]
@@ -410,31 +555,6 @@ Add to `globals.css` (or the project's main CSS file):
 
 If the file already has `:root` variables, merge without overwriting.
 
-### 3. Page Structure (if detectable)
-
-Analyze the reference site's HTML structure and add a `## Page Structure` section at the end of DESIGN.md:
-
-```markdown
-## Page Structure
-
-Detected layout pattern from [site]:
-
-1. **Nav:** Sticky header, logo left, links center, CTA right
-2. **Hero:** Full-width, large heading centered, subtitle below, 2 buttons
-3. **Metrics:** 4-column stat grid with large numbers
-4. **Features:** 3-column card grid, icon + title + description per card
-5. **Testimonials:** 2-column quote cards with avatar + company
-6. **CTA:** Centered heading + button, full-width section
-7. **Footer:** Logo, link columns, copyright
-
-Grid patterns:
-- Feature grids: 3 columns on desktop, 1 on mobile
-- Card gaps: 16-24px
-- Section padding: 80-96px vertical
-```
-
-Detect this from the DOM tree -- look at semantic elements (`<nav>`, `<header>`, `<section>`, `<footer>`), grid/flex containers, column counts, and heading hierarchy. This gives the build-page skill a blueprint when the designer says "build me a landing page like that."
-
 ### After creating all files, say:
 - "Your design reference is ready. Tailwind config and CSS variables are set up. Any page you build now follows [site name]'s style."
 
@@ -442,7 +562,7 @@ Do not explain every section. The designer doesn't need a walkthrough.
 
 ## What Not To Do
 
-- Do not ask which sections to include -- generate all 8
+- Do not ask which sections to include -- generate all 9
 - Do not generate a partial file and ask if they want more
 - Do not copy copyrighted content (logos, illustrations, copy text) -- only extract visual tokens
 - Do not require any tools beyond web fetching -- no browser automation, no Figma, no screenshots

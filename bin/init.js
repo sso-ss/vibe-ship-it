@@ -18,54 +18,68 @@ if (command === 'init') {
   console.log('    1. VS Code Copilot')
   console.log('    2. Claude Code')
   console.log('    3. OpenAI Codex')
-  console.log('    4. All of the above (installs everything)')
+  console.log('    4. Cursor')
+  console.log('    5. All of the above (installs everything)')
   console.log('')
 
   const readline = require('readline')
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 
-  rl.question('  Pick a number (1-4, default: 4): ', (answer) => {
+  rl.question('  Pick a number (1-5, default: 5): ', (answer) => {
     rl.close()
-    const choice = (answer || '4').trim()
+    const choice = (answer || '5').trim()
 
     // Determine what to skip based on choice
     const skipPaths = new Set()
     if (choice === '1') {
-      // VS Code Copilot only — skip Claude and Codex files
+      // VS Code Copilot only — skip Claude, Codex, and Cursor files
       skipPaths.add('CLAUDE.md')
       skipPaths.add('AGENTS.md')
       skipPaths.add('_claude')
+      skipPaths.add('_cursor')
     } else if (choice === '2') {
-      // Claude Code only — skip Copilot and Codex files
+      // Claude Code only — skip Copilot, Codex, and Cursor files
       skipPaths.add('AGENTS.md')
       skipPaths.add('_github')
+      skipPaths.add('_cursor')
     } else if (choice === '3') {
-      // OpenAI Codex only — skip Copilot and Claude files
+      // OpenAI Codex only — skip Copilot, Claude, and Cursor files
+      skipPaths.add('_github')
+      skipPaths.add('_claude')
+      skipPaths.add('_cursor')
+      skipPaths.add('CLAUDE.md')
+    } else if (choice === '4') {
+      // Cursor only — skip Copilot, Claude, and Codex files
       skipPaths.add('_github')
       skipPaths.add('_claude')
       skipPaths.add('CLAUDE.md')
+      skipPaths.add('AGENTS.md')
     }
-    // choice '4' or anything else = install everything
+    // choice '5' or anything else = install everything
 
     const renameMap = {
       '_github': '.github',
       '_claude': '.claude',
+      '_cursor': '.cursor',
     }
 
     console.log('')
     copyDir(templateDir, targetDir, renameMap, skipPaths)
 
-    const tools = { '1': 'VS Code Copilot', '2': 'Claude Code', '3': 'OpenAI Codex', '4': 'all tools' }
+    const tools = { '1': 'VS Code Copilot', '2': 'Claude Code', '3': 'OpenAI Codex', '4': 'Cursor', '5': 'all tools' }
     const toolName = tools[choice] || 'all tools'
 
     console.log('')
     console.log(`  ✅ Done! Installed for ${toolName}:`)
     console.log('')
-    if (choice !== '1' && choice !== '3') {
+    if (choice !== '1' && choice !== '3' && choice !== '4') {
       console.log('     6 commands (/check, /ship, /wow, /stuck, /save, /explain)')
     }
-    if (choice !== '2' && choice !== '3') {
+    if (choice !== '2' && choice !== '3' && choice !== '4') {
       console.log('     4 agents  (assistant, checker, shipper, investigator)')
+    }
+    if (choice === '4' || choice === '5') {
+      console.log('    17 rules   (main + skill rules for Cursor auto-attach)')
     }
     console.log('    13 skills  (build-page, design-system, save-data, and more)')
     console.log('')
@@ -77,6 +91,7 @@ if (command === 'init') {
   const dirs = [
     path.join(targetDir, '.github', 'agents'),
     path.join(targetDir, '.claude', 'commands'),
+    path.join(targetDir, '.cursor', 'rules'),
     path.join(targetDir, 'skills'),
   ]
   const files = [
@@ -98,7 +113,7 @@ if (command === 'init') {
   })
 
   // Clean up empty parent dirs
-  ;[path.join(targetDir, '.github'), path.join(targetDir, '.claude')].forEach(dir => {
+  ;[path.join(targetDir, '.github'), path.join(targetDir, '.claude'), path.join(targetDir, '.cursor')].forEach(dir => {
     if (fs.existsSync(dir) && fs.readdirSync(dir).length === 0) {
       fs.rmdirSync(dir)
     }
@@ -147,7 +162,7 @@ if (command === 'init') {
   console.log('    npx vibe-ship-it init     Install into current project')
   console.log('    npx vibe-ship-it remove   Remove from current project')
   console.log('')
-  console.log('  Works with VS Code Copilot, Claude Code, and OpenAI Codex.')
+  console.log('  Works with VS Code Copilot, Claude Code, Cursor, and OpenAI Codex.')
   console.log('')
 }
 

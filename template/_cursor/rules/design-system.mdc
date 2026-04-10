@@ -1,0 +1,9 @@
+---
+description: Makes styles consistent. Extracts current look into reusable tokens and components. Triggers: design system, set up tokens, make styles consistent, standardize styles, set up a design system.
+globs: 
+alwaysApply: false
+---
+
+# Design System
+
+Read and follow the full instructions in `skills/design-system/SKILL.md`.

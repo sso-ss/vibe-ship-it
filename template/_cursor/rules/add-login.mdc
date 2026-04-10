@@ -1,0 +1,9 @@
+---
+description: Adds user authentication. Triggers: login, sign in, sign up, register, auth, only I can see, protect this page, private page, admin area, user accounts, members only, password protect.
+globs: 
+alwaysApply: false
+---
+
+# Add Login
+
+Read and follow the full instructions in `skills/add-login/SKILL.md`.

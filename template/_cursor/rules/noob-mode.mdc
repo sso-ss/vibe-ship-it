@@ -1,0 +1,9 @@
+---
+description: Plain-English translation layer. Explains technical things simply. Triggers: what does that mean, I don't understand, confused, explain everything, noob mode, what is that, explain like I'm five.
+globs: 
+alwaysApply: false
+---
+
+# Noob Mode
+
+Read and follow the full instructions in `skills/noob-mode/SKILL.md`.

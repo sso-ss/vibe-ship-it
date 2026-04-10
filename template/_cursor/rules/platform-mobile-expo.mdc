@@ -1,0 +1,9 @@
+---
+description: React Native, Expo, Supabase, and EAS conventions for mobile app projects. Auto-applied when working on mobile app files.
+globs: ["app/**/*.native.*", "expo/**", "app.json"]
+alwaysApply: false
+---
+
+# Mobile (Expo) Platform
+
+Read and follow the full instructions in `skills/platforms/mobile-expo/SKILL.md`.

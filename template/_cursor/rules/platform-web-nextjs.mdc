@@ -1,0 +1,9 @@
+---
+description: Next.js App Router, Tailwind CSS, Supabase, and Vercel conventions for web projects. Auto-applied when working on web project files.
+globs: ["app/**", "pages/**", "components/**", "next.config.*"]
+alwaysApply: false
+---
+
+# Web (Next.js) Platform
+
+Read and follow the full instructions in `skills/platforms/web-nextjs/SKILL.md`.

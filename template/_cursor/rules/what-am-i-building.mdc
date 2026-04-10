@@ -1,0 +1,9 @@
+---
+description: Figures out what you're building and sets up the project. Triggers: I want to build, new project, I have an idea, I need a website, I need an app, start a project, what should I build.
+globs: 
+alwaysApply: false
+---
+
+# What Am I Building
+
+Read and follow the full instructions in `skills/what-am-i-building/SKILL.md`.

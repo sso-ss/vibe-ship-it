@@ -1,0 +1,9 @@
+---
+description: Sends emails from your app. Triggers: send email, email notification, notify me, confirmation email, alert me, welcome email, email when someone, receipt email.
+globs: 
+alwaysApply: false
+---
+
+# Send Email
+
+Read and follow the full instructions in `skills/send-email/SKILL.md`.

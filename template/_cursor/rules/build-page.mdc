@@ -1,0 +1,9 @@
+---
+description: Builds UI from descriptions, screenshots, or Figma designs. Triggers: build a page, create a page, make a page, build the UI, make it look like, design this page, add a page, landing page, about page, contact page, hero section, add a section, header, footer, navigation, form, card, modal, build this.
+globs: 
+alwaysApply: false
+---
+
+# Build Page
+
+Read and follow the full instructions in `skills/build-page/SKILL.md`.

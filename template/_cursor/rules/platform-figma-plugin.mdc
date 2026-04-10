@@ -1,0 +1,9 @@
+---
+description: Figma Plugin API and TypeScript conventions for Figma plugin development. Auto-applied when working on Figma plugin files.
+globs: ["manifest.json", "src/plugin/**", "src/ui/**"]
+alwaysApply: false
+---
+
+# Figma Plugin Platform
+
+Read and follow the full instructions in `skills/platforms/figma-plugin/SKILL.md`.

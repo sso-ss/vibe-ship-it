@@ -1,0 +1,9 @@
+---
+description: Displays saved data as lists, tables, cards, or dashboards. Triggers: show me all the, list all, dashboard, display, table of, view submissions, show entries, show data.
+globs: 
+alwaysApply: false
+---
+
+# Show Data
+
+Read and follow the full instructions in `skills/show-data/SKILL.md`.
